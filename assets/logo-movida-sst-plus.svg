@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">La Movida SST Plus</title>
+  <desc id="desc">Logo circular de La Movida SST Plus. Comunidad, aprendizaje colaborativo, protección y prevención.</desc>
+  <defs>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0097a3"/><stop offset="1" stop-color="#007b85"/></linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#123b8d"/><stop offset="1" stop-color="#00205b"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8bcf45"/><stop offset="1" stop-color="#70ad47"/></linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceAlpha" stdDeviation="9" result="blur"/><feOffset dy="9" result="offsetBlur"/><feFlood flood-color="#00205b" flood-opacity=".18" result="shadowColor"/><feComposite in="shadowColor" in2="offsetBlur" operator="in" result="shadow"/><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <path id="sloganArc" d="M 190 1110 Q 600 1190 1010 1110"/>
+  </defs>
+
+  <!-- Emblema circular -->
+  <circle cx="600" cy="600" r="576" fill="#fff" stroke="url(#teal)" stroke-width="24"/>
+  <circle cx="600" cy="600" r="546" fill="none" stroke="#00205b" stroke-width="12"/>
+  <circle cx="600" cy="600" r="525" fill="none" stroke="#007b85" stroke-width="4" opacity=".35"/>
+
+  <!-- Comunidad conectada -->
+  <path d="M342 432 A310 310 0 0 1 858 432" fill="none" stroke="#007b85" stroke-width="18" stroke-linecap="round"/>
+  <path d="M322 454 A330 330 0 0 0 350 704" fill="none" stroke="#007b85" stroke-width="18" stroke-linecap="round"/>
+  <path d="M878 454 A330 330 0 0 1 850 704" fill="none" stroke="#70ad47" stroke-width="18" stroke-linecap="round"/>
+
+  <g filter="url(#soft)">
+    <!-- Personas -->
+    <g fill="url(#navy)" stroke="#fff" stroke-width="10">
+      <circle cx="342" cy="412" r="39"/><path d="M268 595c0-86 34-138 74-138s74 52 74 138v75c-44 47-104 47-148 0z"/>
+    </g>
+    <g fill="url(#teal)" stroke="#fff" stroke-width="10">
+      <circle cx="600" cy="272" r="46"/><path d="M510 420c0-89 40-136 90-136s90 47 90 136v42H510z"/>
+    </g>
+    <g fill="url(#green)" stroke="#fff" stroke-width="10">
+      <circle cx="858" cy="412" r="39"/><path d="M784 595c0-86 34-138 74-138s74 52 74 138v75c-44 47-104 47-148 0z"/>
+    </g>
+
+    <!-- Escudo -->
+    <path d="M600 380 770 447v124c0 124-71 207-170 268-99-61-170-144-170-268V447z" fill="url(#navy)" stroke="#fff" stroke-width="16" stroke-linejoin="round"/>
+    <path d="M600 400 600 812c-86-57-145-130-145-239V465z" fill="url(#teal)" opacity=".96"/>
+    <!-- Check y movimiento -->
+    <path d="m505 578 70 72 164-178" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M520 691c118-15 219-83 292-184" fill="none" stroke="#70ad47" stroke-width="25" stroke-linecap="round"/>
+    <path d="m778 483 57-14-17 55z" fill="#70ad47"/>
+
+    <!-- Libro abierto -->
+    <path d="M600 820c-65-57-134-76-225-58 43-42 103-70 225-17z" fill="#fff" stroke="#00205b" stroke-width="14" stroke-linejoin="round"/>
+    <path d="M600 820c65-57 134-76 225-58-43-42-103-70-225-17z" fill="#fff" stroke="#00205b" stroke-width="14" stroke-linejoin="round"/>
+    <path d="M390 781c77-17 147 2 210 39 63-37 133-56 210-39" fill="none" stroke="#ffb600" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <!-- Nombre -->
+  <rect x="172" y="797" width="856" height="124" rx="55" fill="url(#teal)"/>
+  <path d="M130 835h78M144 866h64M992 835h78M992 866h64" stroke="#fff" stroke-width="13" stroke-linecap="round"/>
+  <path d="M143 893h65M992 893h65" stroke="#ffb600" stroke-width="11" stroke-linecap="round"/>
+  <text x="600" y="884" text-anchor="middle" fill="#fff" font-family="Outfit, Montserrat, Arial, sans-serif" font-size="91" font-weight="800" letter-spacing="2">LA MOVIDA</text>
+
+  <rect x="325" y="932" width="550" height="122" rx="54" fill="url(#navy)"/>
+  <text x="572" y="1028" text-anchor="middle" fill="#fff" font-family="Outfit, Montserrat, Arial, sans-serif" font-size="123" font-weight="800" letter-spacing="4">SST</text>
+  <path d="M742 965v65M709 998h66" stroke="#ffb600" stroke-width="25" stroke-linecap="square"/>
+
+  <!-- Eslogan en arco inferior -->
+  <text fill="#00205b" font-family="Outfit, Montserrat, Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="1.8">
+    <textPath xlink:href="#sloganArc" startOffset="50%" text-anchor="middle">DE LA REACCIÓN A LA PREVENCIÓN</textPath>
+  </text>
+</svg>
