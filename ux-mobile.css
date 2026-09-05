@@ -1,0 +1,122 @@
+/* Capa de usabilidad didáctica y optimización móvil — Luxómetro Virtual Movida SST+ */
+
+:root{
+  --ux-touch:48px;
+  --ux-safe-bottom:max(12px,env(safe-area-inset-bottom));
+}
+
+html,body{overflow-x:hidden}
+button,select,input{min-height:var(--ux-touch)}
+button{cursor:pointer}
+
+.ux-mobile-coach{display:none}
+.ux-mobile-coach__step{font-weight:900}
+.ux-mobile-coach__title{font-weight:800}
+.ux-mobile-coach__meta{font-size:11px;opacity:.8}
+.ux-mobile-coach__actions{display:flex;gap:8px}
+.ux-mobile-coach__actions button{min-height:42px;padding:8px 10px;border:0;border-radius:9px;font-size:11px;font-weight:900}
+.ux-mobile-coach__next{color:#082642;background:#ffb600}
+.ux-mobile-coach__config{color:#0b4f56;background:#e7f6f4;border:1px solid #b9dcda!important}
+
+.ux-setup-highlight{animation:uxSetupPulse .7s ease-in-out 2}
+@keyframes uxSetupPulse{50%{box-shadow:0 0 0 5px rgba(255,182,0,.22)}}
+
+.ux-mobile-summary{display:none}
+.ux-mobile-summary strong,.ux-mobile-summary span{display:block}
+
+@media (max-width:900px){
+  body{padding-bottom:94px}
+  .app-grid{padding-top:8px}
+  .control-panel,.lab-stage,.learning-panel{border-radius:18px}
+  .control-panel{padding:14px 14px 16px}
+  .control-panel h1{font-size:26px;line-height:1.05}
+  .intro{font-size:14px;line-height:1.5}
+  .field>span{font-size:13px}
+  .field select,.field input{font-size:16px;line-height:1.2}
+  .micro-note{font-size:12px;line-height:1.45}
+
+  .ux-mobile-coach{
+    position:sticky;top:6px;z-index:52;
+    margin:0 10px 10px;padding:11px 12px;
+    display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
+    border:1px solid #cfe1e3;border-radius:14px;
+    background:rgba(255,255,255,.96);box-shadow:0 10px 28px rgba(0,32,91,.13);backdrop-filter:blur(12px)
+  }
+  .ux-mobile-coach__copy{min-width:0}
+  .ux-mobile-coach__step{display:block;color:#007b85;font-size:10px;letter-spacing:.08em}
+  .ux-mobile-coach__title{display:block;margin-top:2px;color:#00205b;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ux-mobile-coach__meta{display:block;margin-top:3px;color:#64748b}
+  .ux-mobile-coach__actions{align-items:center}
+  .ux-mobile-coach__actions button{white-space:nowrap}
+
+  .ux-mobile-summary{
+    margin:0 0 12px;padding:10px 11px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;
+    border:1px solid #d7e2e7;border-radius:12px;background:#f8fbfc
+  }
+  .ux-mobile-summary strong{color:#00205b;font-size:12px}
+  .ux-mobile-summary span{margin-top:2px;color:#64748b;font-size:10px}
+  .ux-mobile-summary button{min-height:40px;padding:7px 10px;border:1px solid #c4d5db;border-radius:8px;color:#005c64;background:#fff;font-size:11px;font-weight:900}
+
+  .view-tabs{scrollbar-width:none;-ms-overflow-style:none}
+  .view-tabs::-webkit-scrollbar{display:none}
+  .view-tabs button{min-height:46px;font-size:12px}
+
+  .meter-wrap{padding-top:0}
+  .meter{width:100%;max-width:470px;border-radius:22px}
+  .meter-brand strong{font-size:14px}
+  .meter-brand small{font-size:10px}
+  .reading-row strong{font-size:clamp(48px,15vw,66px)}
+  .screen-message{font-size:10px}
+  .key{min-height:60px}
+  .key b{font-size:15px}
+  .key small{font-size:8px}
+  .direct-actions button{min-height:44px;font-size:11px}
+
+  .status-cards{grid-template-columns:repeat(2,1fr)}
+  .status-cards span{font-size:10px}
+  .status-cards strong{font-size:11px}
+
+  .panel-title h2{font-size:22px}
+  .grid-instruction{font-size:13px;line-height:1.45}
+  .point{min-height:64px}
+  .point span{font-size:10px}
+  .point strong{font-size:13px}
+  .point small{font-size:9px}
+
+  .lesson p,.norm-card>small,.can-measure li span,.flag{font-size:11px}
+  .can-measure li span strong{font-size:11px}
+
+  .mobile-dock{bottom:var(--ux-safe-bottom)}
+  .mobile-dock button{min-height:56px;font-size:10px}
+  .mobile-dock button span{font-size:16px}
+
+  .toast{bottom:calc(82px + var(--ux-safe-bottom));font-size:13px;line-height:1.35}
+
+  .manual-dialog{width:calc(100vw - 14px);max-height:calc(100dvh - 14px)}
+  .manual-dialog form{padding-bottom:calc(22px + env(safe-area-inset-bottom))}
+}
+
+@media (max-width:620px){
+  .topbar{position:sticky;top:0;z-index:55}
+  .resource-bar{position:sticky;top:64px;z-index:54}
+  .brand strong{font-size:14px}
+  .brand small{font-size:10px}
+
+  .ux-mobile-coach{grid-template-columns:1fr;margin-inline:8px}
+  .ux-mobile-coach__actions{display:grid;grid-template-columns:1fr 1fr}
+  .ux-mobile-coach__actions button{width:100%}
+
+  .scenario-summary strong{font-size:14px}
+  .scenario-summary p{font-size:12px}
+
+  .measurement-grid{gap:7px}
+  .result-grid>div{padding:14px}
+  .result-grid span{font-size:11px}
+  .result-grid small{font-size:10px}
+
+  .page-footer{font-size:10px;text-align:center}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
