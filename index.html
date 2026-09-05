@@ -2,46 +2,42 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#041529">
-  <meta name="description" content="Simulador didáctico de luxómetro para aprender a medir iluminancia en puestos de trabajo.">
-  <title>Simulador de Luxómetro | Movida SST+</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#00205b">
+  <meta name="description" content="Simulador profesional y didáctico de luxómetro para practicar medición de iluminancia y evaluación de iluminación interior.">
+  <title>Luxómetro Virtual · Movida SST+</title>
   <link rel="icon" type="image/svg+xml" href="assets/logo-movida-sst-plus.svg">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="auth-locked lux-app">
+<body class="auth-locked">
   <section class="login-gate" id="loginGate" aria-labelledby="loginTitle">
     <div class="login-shell">
-      <div class="login-story lux-login-story">
+      <div class="login-story">
         <a class="login-brand" href="https://laboratorio.movidasst.com" aria-label="Volver al Laboratorio Virtual">
-          <img src="assets/logo-movida-sst-plus.svg" alt="Logo de La Movida de SST Plus">
+          <img src="assets/logo-movida-sst-plus.svg" alt="Logo La Movida de SST Plus">
           <span><strong>La Movida de SST Plus</strong><small>De la Reacción a la Prevención</small></span>
         </a>
         <div class="login-story-copy">
-          <p class="login-eyebrow"><span></span> MOVIDALAB HO · ILUMINACIÓN</p>
-          <h1 id="loginTitle">Domina el<br><em>luxómetro.</em></h1>
-          <p>Practica cómo preparar, ubicar y leer el instrumento antes de evaluar la iluminación de un puesto de trabajo.</p>
-          <div class="login-feature-strip" aria-label="Funciones incluidas">
-            <span><b>01</b>Lectura puntual</span>
-            <span><b>02</b>Malla y uniformidad</span>
-            <span><b>03</b>Guía didáctica</span>
-          </div>
+          <p class="eyebrow light">MOVIDALAB HO · ILUMINACIÓN</p>
+          <h1 id="loginTitle">Luxómetro Virtual<br><em>MLX–PRO 900</em></h1>
+          <p>Aprende a operar el instrumento y a construir una evaluación de iluminancia con criterio técnico.</p>
+          <div class="feature-strip"><span><b>01</b>Instrumento</span><span><b>02</b>Rejilla EN</span><span><b>03</b>Interpretación</span></div>
         </div>
         <a class="login-back" href="https://laboratorio.movidasst.com">← Volver a MovidaLab HO</a>
       </div>
       <div class="login-card">
-        <div class="login-card-heading"><span class="member-icon" aria-hidden="true">+</span><div><p>ÁREA DE PRÁCTICA · SST+</p><h2>Identifica tu acceso</h2></div></div>
+        <div class="login-card-heading"><span class="member-icon">+</span><div><p>ÁREA DE PRÁCTICA · SST+</p><h2>Identifica tu acceso</h2></div></div>
         <p class="login-intro">Ingresa con la cédula y el código de integrante registrados en La Movida SST Plus.</p>
         <form class="login-form" id="memberLogin" novalidate>
           <label for="memberId">Cédula de identidad</label>
           <input id="memberId" name="cedula" type="text" inputmode="numeric" autocomplete="username" maxlength="20" placeholder="Solo números" required>
           <label for="memberPassword">Clave o código de integrante</label>
-          <div class="password-field"><input id="memberPassword" name="codigo" type="password" autocomplete="current-password" maxlength="80" placeholder="Escribe tu clave" required><button id="togglePassword" type="button" aria-label="Mostrar clave" aria-pressed="false">Mostrar</button></div>
+          <div class="password-field"><input id="memberPassword" name="codigo" type="password" autocomplete="current-password" maxlength="80" placeholder="Escribe tu clave" required><button id="togglePassword" type="button">Mostrar</button></div>
           <p class="login-message" id="loginMessage" role="status" aria-live="polite"></p>
-          <button class="login-submit" id="loginSubmit" type="submit"><span>Abrir laboratorio</span><i aria-hidden="true">→</i></button>
+          <button class="login-submit" id="loginSubmit" type="submit"><span>Abrir laboratorio</span><i>→</i></button>
         </form>
         <div class="register-callout"><strong>¿No estás registrado?</strong><span>Regístrate gratuitamente para obtener tu código de integrante.</span><a href="https://registro.movidasst.com">Registrarme ahora</a></div>
-        <p class="login-privacy">La validación se realiza con el registro oficial. La aplicación no guarda tu cédula ni tu clave.</p>
+        <p class="login-privacy">La validación usa el registro oficial. La aplicación no guarda tu cédula ni tu clave.</p>
         <div class="login-contact"><span>Elaborado por <strong>David Linares Brea</strong></span><a href="mailto:info@movidasst.com">info@movidasst.com</a><a href="tel:+56968615650">+56 9 6861 5650</a></div>
       </div>
     </div>
@@ -49,117 +45,169 @@
 
   <div id="appShell" hidden aria-hidden="true">
     <header class="topbar">
-      <a class="brand" href="https://laboratorio.movidasst.com"><img class="brand-mark" src="assets/logo-movida-sst-plus.svg" alt="Logo de La Movida de SST Plus"><span><strong>La Movida de SST Plus</strong><small>De la Reacción a la Prevención</small></span></a>
-      <div class="top-actions"><button id="guidedToggle" class="chip active" type="button" aria-pressed="true">Modo guiado</button><button id="tutorialBtn" class="chip tutorial-chip" type="button">Tutorial</button><button id="helpBtn" class="manual-chip" type="button">Manual</button></div>
+      <a class="brand" href="https://laboratorio.movidasst.com"><img src="assets/logo-movida-sst-plus.svg" alt="La Movida de SST Plus"><span><strong>La Movida de SST Plus</strong><small>De la Reacción a la Prevención</small></span></a>
+      <div class="top-actions"><button id="guidedToggle" class="chip active" type="button" aria-pressed="true">Modo guiado</button><button id="manualBtn" class="chip" type="button">Manual</button></div>
     </header>
-    <nav class="resource-bar" aria-label="Enlaces de La Movida SST">
-      <a class="resource-link back-link" href="https://laboratorio.movidasst.com">← Volver a MovidaLab HO</a>
-      <a class="resource-link channel-link" href="https://whatsapp.com/channel/0029Va0mlH5Jf05mrcCz8r3e">Canal de WhatsApp</a>
-      <div class="member-session"><span>Hola, <strong id="memberName">integrante</strong></span><button id="logoutBtn" type="button">Cerrar sesión</button></div>
-    </nav>
+    <nav class="resource-bar"><a href="https://laboratorio.movidasst.com">← MovidaLab HO</a><a href="https://whatsapp.com/channel/0029Va0mlH5Jf05mrcCz8r3e">Canal WhatsApp</a><div class="member-session"><span>Hola, <strong id="memberName">integrante</strong></span><button id="logoutBtn" type="button">Cerrar sesión</button></div></nav>
 
-    <main class="workbench">
-      <section class="context-panel" aria-labelledby="contextTitle">
-        <div><p class="eyebrow">LABORATORIO VIRTUAL DE HIGIENE OCUPACIONAL</p><h1 id="contextTitle">Aprende a medir iluminancia</h1><p class="intro">Configura el luxómetro y descubre cómo el plano, la posición y las sombras cambian el resultado.</p></div>
-        <label class="field-label" for="scenarioSelect">Puesto de trabajo simulado</label>
-        <select id="scenarioSelect" class="scenario-select">
-          <option value="office">Oficina administrativa</option>
-          <option value="precision">Mesa de inspección fina</option>
-          <option value="warehouse">Almacén con estanterías</option>
-          <option value="corridor">Pasillo de circulación</option>
-          <option value="window">Puesto próximo a una ventana</option>
-        </select>
-        <div class="scenario-card"><div class="scenario-visual light-visual" id="scenarioVisual" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div><strong id="scenarioName">Oficina administrativa</strong><p id="scenarioDescription">Iluminación general relativamente uniforme sobre un plano de trabajo horizontal.</p></div></div>
+    <main class="app-grid">
+      <aside class="control-panel card">
+        <p class="eyebrow">CONFIGURACIÓN DE LA PRÁCTICA</p>
+        <h1>Aprende a medir iluminancia</h1>
+        <p class="intro">Primero configura el escenario y el instrumento. Después mide puntos, construye una rejilla y analiza el resultado.</p>
 
-        <section class="direct-console" aria-labelledby="directConsoleTitle">
-          <div class="direct-console-heading"><div><p>CONTROL DIRECTO</p><h2 id="directConsoleTitle">Configura sin perderte</h2></div><span id="directPowerState">OFF</span></div>
-          <div class="direct-actions">
-            <button id="quickPowerBtn" class="direct-power" type="button"><span>⏻</span><strong>Encender</strong></button>
-            <button id="quickZeroBtn" type="button"><span>0</span><strong>Poner a cero</strong></button>
-            <button id="quickRunBtn" class="direct-run" type="button"><span>▶</span><strong>Medir</strong></button>
-            <button id="quickSaveBtn" type="button"><span>MEM</span><strong>Guardar</strong></button>
+        <label class="field"><span>Escenario / tarea</span><select id="scenarioSelect">
+          <option value="office">Oficina · escritura, lectura y datos</option>
+          <option value="precision">Área de inspección</option>
+          <option value="warehouse">Almacén · estanterías, suelo</option>
+          <option value="corridor">Pasillo logístico · circulación densa</option>
+          <option value="window">Oficina próxima a ventana</option>
+        </select></label>
+        <div class="scenario-summary" id="scenarioSummary"></div>
+
+        <div class="control-section">
+          <h2>Condición de medición</h2>
+          <label class="field"><span>Plano</span><select id="planeSelect"><option value="horizontal">Horizontal · tarea</option><option value="vertical">Vertical</option><option value="floor">A nivel del suelo</option></select></label>
+          <label class="field"><span>Condición de luz</span><select id="lightConditionSelect"><option value="electric">Solo eléctrica</option><option value="mixed">Mixta</option><option value="daylight">Predominio de luz natural</option></select></label>
+          <label class="field"><span>Posición / interferencia</span><select id="positionSelect"><option value="correct">Correcta · sin sombra</option><option value="shadow">Sombra del evaluador</option><option value="partial">Sensor parcialmente cubierto</option></select></label>
+          <label class="field"><span>Ángulo del sensor</span><select id="angleSelect"><option value="0">0° · alineado</option><option value="30">30°</option><option value="60">60°</option></select></label>
+        </div>
+
+        <div class="control-section">
+          <h2>Configuración del MLX–PRO 900</h2>
+          <div class="segmented" id="unitButtons"><button type="button" data-unit="lux" class="active">lux</button><button type="button" data-unit="fc">fc</button></div>
+          <label class="field"><span>Rango</span><select id="rangeSelect"></select></label>
+          <label class="field"><span>Perfil de fuente LS</span><select id="sourceProfileSelect"></select></label>
+          <p class="micro-note">Los perfiles LS se usan aquí para enseñar que la respuesta espectral y las correcciones dependen del instrumento y de la fuente; no son factores universales.</p>
+        </div>
+
+        <div class="guide-card" id="guideCard">
+          <div class="guide-head"><strong id="guideStep">Paso 1 de 8</strong><span id="guidePercent">0%</span></div>
+          <div class="progress"><i id="guideProgress"></i></div>
+          <h3 id="guideTitle">Enciende el equipo</h3><p id="guideText">Pulsa POWER para iniciar la autocomprobación.</p>
+          <button id="guideLocate" type="button">Muéstrame dónde</button>
+        </div>
+      </aside>
+
+      <section class="lab-stage card">
+        <div class="view-tabs" role="tablist" aria-label="Vistas del simulador">
+          <button type="button" data-view="spot" class="active">Puntual</button>
+          <button type="button" data-view="grid">Rejilla EN</button>
+          <button type="button" data-view="cyl">Cilíndrica</button>
+          <button type="button" data-view="results">Resultados</button>
+          <button type="button" data-view="memory">Memoria</button>
+        </div>
+
+        <section class="view-panel" id="spotView">
+          <div class="meter-wrap">
+            <div class="sensor-rig" id="sensorRig">
+              <button class="sensor-cap" id="sensorCapBtn" type="button" aria-pressed="false"><span></span><small id="capLabel">Tapa retirada</small></button>
+              <div class="sensor-cable"></div>
+            </div>
+            <article class="meter" id="meter">
+              <div class="meter-brand"><img src="assets/logo-movida-sst-plus.svg" alt=""><span><strong>MOVIDA SST+</strong><small>MLX–PRO 900 · SIM</small></span></div>
+              <div class="screen" id="screen">
+                <div class="screen-top"><span id="modeIndicator">AUTO</span><span id="sourceIndicator">L0</span><span id="holdIndicator">LIVE</span><span class="battery">▮▮▮</span></div>
+                <div class="reading-row"><strong id="mainReading">----</strong><span id="mainUnit">lx</span></div>
+                <div class="analog"><i id="analogBar"></i></div>
+                <div class="screen-sub"><span>MIN <b id="minReading">----</b></span><span>MAX <b id="maxReading">----</b></span><span>PEAK <b id="peakReading">----</b></span></div>
+                <div class="screen-bottom"><span id="rangeIndicator">AUTO</span><span id="relIndicator">ABS</span><span id="timerIndicator">00:00</span></div>
+                <div class="screen-message" id="screenMessage">OFF</div>
+              </div>
+              <div class="keypad">
+                <button id="powerBtn" class="key power" type="button"><b>⏻</b><small>POWER</small></button>
+                <button id="rangeBtn" class="key" type="button"><b>RAN</b><small>AUTO/MANU</small></button>
+                <button id="unitBtn" class="key" type="button"><b>Lx/Fc</b><small>UNIDAD</small></button>
+                <button id="maxMinBtn" class="key" type="button"><b>MAX</b><small>MAX/MIN</small></button>
+                <button id="holdZeroBtn" class="key" type="button"><b>HOLD</b><small>HOLD/ZERO</small></button>
+                <button id="relPeakBtn" class="key" type="button"><b>REL</b><small>REL/PEAK</small></button>
+                <button id="sourceBtn" class="key" type="button"><b>LS</b><small>FUENTE</small></button>
+                <button id="conditionBtn" class="key" type="button"><b>2m</b><small>ESTABILIZAR</small></button>
+                <button id="runBtn" class="key run" type="button"><b>▶</b><small>MEDIR</small></button>
+              </div>
+              <p class="press-hint">HOLD/ZERO y REL/PEAK distinguen pulsación corta/larga. También puedes usar los controles directos de abajo.</p>
+              <div class="direct-actions"><button id="quickZeroBtn" type="button">ZERO con tapa</button><button id="quickPeakBtn" type="button">PEAK</button><button id="saveSpotBtn" type="button">Guardar lectura</button></div>
+            </article>
           </div>
-          <div class="direct-setting"><span>Unidad</span><div role="group" aria-label="Unidad"><button type="button" data-setting="unit" data-value="lux">lux</button><button type="button" data-setting="unit" data-value="fc">fc</button></div></div>
-          <div class="direct-setting view-setting"><span>Pantalla</span><div role="group" aria-label="Visualización"><button type="button" data-setting="view" data-value="spot">Puntual</button><button type="button" data-setting="view" data-value="grid">Malla</button><button type="button" data-setting="view" data-value="stats">Resultados</button><button type="button" data-setting="view" data-value="history">Memoria</button></div></div>
-          <label class="direct-range" for="quickRangeSelect"><span>Rango</span><select id="quickRangeSelect"><option value="AUTO">Automático</option><option value="200">0–200 lx</option><option value="2000">0–2.000 lx</option><option value="20000">0–20.000 lx</option><option value="200000">0–200.000 lx</option></select></label>
-          <label class="direct-range" for="planeSelect"><span>Plano de medición</span><select id="planeSelect"><option value="pending">Selecciona el plano…</option><option value="horizontal">Horizontal · mesa</option><option value="vertical">Vertical · pantalla</option><option value="circulation">Circulación · piso</option></select></label>
-          <label class="direct-range" for="positionSelect"><span>Posición del sensor</span><select id="positionSelect"><option value="pending">Selecciona la posición…</option><option value="correct">Correcta y sin sombras</option><option value="shadow">Sombra del evaluador</option><option value="tilted">Sensor inclinado</option><option value="covered">Sensor parcialmente cubierto</option></select></label>
+          <div class="status-cards">
+            <div><span>Sensor</span><strong id="sensorStatus">Sin estabilizar</strong></div><div><span>Cero</span><strong id="zeroStatus">Pendiente</strong></div><div><span>Muestreo</span><strong>2 Hz</strong></div><div><span>Estado</span><strong id="runStatus">Apagado</strong></div>
+          </div>
         </section>
 
-        <div class="mission-card" id="guideCard" aria-live="polite">
-          <div class="mission-heading"><span id="guideStep">Paso 1 de 10</span><span id="guidePercent">0%</span></div><div class="guide-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="guideProgress"></i></div>
-          <strong id="guideTitle">Inspecciona y enciende</strong><p id="guideText">Revisa el sensor, el cable, la batería y el estado del difusor antes de pulsar Encender.</p>
-          <ol class="guide-checklist" id="guideChecklist"><li data-guide-key="power"><i>1</i><span>Encender</span></li><li data-guide-key="zero"><i>2</i><span>Cero</span></li><li data-guide-key="unit"><i>3</i><span>Lux</span></li><li data-guide-key="range"><i>4</i><span>Rango</span></li><li data-guide-key="plane"><i>5</i><span>Plano</span></li><li data-guide-key="position"><i>6</i><span>Posición</span></li><li data-guide-key="measured"><i>7</i><span>Medir</span></li><li data-guide-key="grid"><i>8</i><span>Malla</span></li><li data-guide-key="complete"><i>9</i><span>9 puntos</span></li><li data-guide-key="saved"><i>10</i><span>Guardar</span></li></ol>
-          <button id="locateStepBtn" class="locate-step" type="button">Muéstrame dónde</button>
-        </div>
-        <div class="legend-card"><strong>Alcance del simulador</strong><p>Los valores son didácticos. No sustituyen un luxómetro calibrado, una estrategia de muestreo ni la evaluación profesional.</p></div>
-      </section>
-
-      <section class="instrument-stage" aria-label="Luxómetro virtual Movida SST Plus">
-        <div class="display-switcher"><div><span>FOTOMETRÍA</span><strong>Vista de medición</strong></div><div class="display-switcher-buttons" role="group"><button type="button" data-setting="view" data-value="spot">Puntual</button><button type="button" data-setting="view" data-value="grid"><b>9</b> Puntos</button><button type="button" data-setting="view" data-value="stats">Resultados</button></div><p>En la malla, toca cada punto para trasladar el sensor y registrar la lectura.</p></div>
-        <div class="meter-shadow"></div>
-        <article class="meter lux-meter" id="meter">
-          <div class="sensor-assembly" id="sensorAssembly" aria-hidden="true"><div class="sensor-head"><span class="sensor-dome"></span><small>FOTODETECTOR</small></div><div class="sensor-cable"></div></div>
-          <div class="meter-body">
-            <div class="meter-brand"><img class="meter-logo" src="assets/logo-movida-sst-plus.svg" alt="La Movida de SST Plus"><span><strong>MOVIDA SST+</strong><small>MLX–PRO 900</small></span><span class="class-badge">SIM</span></div>
-            <div class="screen-shell"><div class="screen-glare" aria-hidden="true"></div><div class="screen off" id="screen"><div class="boot-screen" id="bootScreen"><img class="boot-logo" src="assets/logo-movida-sst-plus.svg" alt=""><strong>MOVIDA SST+</strong><small>Luxómetro virtual</small></div><div class="display" id="display">
-              <div class="status-row"><span id="statusMode">PUNTUAL</span><span id="statusRun" class="run-state">LISTO</span><span class="battery" aria-label="Batería 86 por ciento"><i></i></span></div>
-              <div class="measurement-view" id="spotView"><div class="primary-reading lux-reading"><span id="metricLabel">E</span><strong id="mainReading">----</strong><span class="unit" id="mainUnit">lx</span></div><div class="level-track"><i id="levelBar"></i><span class="limit-mark"></span></div><div class="scale" id="rangeScale"><span>0</span><span>500</span><span>1000</span><span>2000</span></div><div class="metrics-grid"><div><span>Mín.</span><strong id="minValue">----</strong></div><div><span>Máx.</span><strong id="maxValue">----</strong></div><div><span>Punto</span><strong id="pointValue">P1</strong></div><div><span>Tiempo</span><strong id="elapsedValue">00:00</strong></div></div></div>
-              <div class="lux-grid-view" id="gridView" hidden><div class="spectrum-summary"><span>MALLA DE MEDICIÓN</span><strong id="gridProgress">0 / 9</strong></div><div class="measurement-grid" id="measurementGrid" aria-label="Malla de nueve puntos"></div><p class="grid-instruction" id="gridInstruction">Toca P1 para ubicar el sensor.</p></div>
-              <div class="lux-stats-view" id="statsView" hidden><div class="history-title">RESULTADOS <span id="statsCount">0 puntos</span></div><div class="stats-results"><div><span>Promedio</span><strong id="avgValue">----</strong><small id="avgUnit">lx</small></div><div><span>Mínimo</span><strong id="statsMin">----</strong><small>lx</small></div><div><span>Máximo</span><strong id="statsMax">----</strong><small>lx</small></div><div><span>Uniformidad</span><strong id="uniformityValue">----</strong><small>Emin / Eprom</small></div></div><p id="statsHint">Registra varios puntos para caracterizar el área.</p></div>
-              <div class="history-view" id="historyView" hidden><div class="history-title">MEMORIA <span id="memoryCount">0 registros</span></div><div class="history-list" id="historyList"><p>Sin mediciones guardadas</p></div></div>
-              <div class="menu-view" id="menuView" hidden><div class="menu-title" id="menuTitle">CONFIGURACIÓN</div><div class="menu-list" id="menuList"></div><div class="softkey-hints"><span>◀ Volver</span><span>OK Elegir</span></div></div>
-              <div class="zero-view" id="zeroView" hidden><span class="cal-label">PUESTA A CERO</span><div class="zero-graphic" aria-hidden="true"><i></i><span>CAP</span></div><strong id="zeroReading">---- lx</strong><p id="zeroMessage">Coloca la tapa opaca sobre el sensor</p></div>
-              <div class="screen-footer"><span id="unitIndicator">LUX</span><span id="holdIndicator">LIVE</span><span id="rangeIndicator">AUTO</span><span id="clockIndicator">00:00</span></div>
-            </div></div></div>
-            <div class="keypad" aria-label="Controles físicos del luxómetro"><button class="key power-key" id="powerBtn" type="button"><span>⏻</span><small>POWER</small></button><button class="key" id="menuBtn" type="button"><span>MENU</span><small>Configurar</small></button><button class="key arrow-key" id="upBtn" type="button"><span>▲</span></button><button class="key ok-key" id="okBtn" type="button"><span>OK</span><small>Aceptar</small></button><button class="key arrow-key" id="downBtn" type="button"><span>▼</span></button><button class="key" id="backBtn" type="button"><span>◀</span><small>Volver</small></button><button class="key run-key" id="runBtn" type="button"><span>▶Ⅱ</span><small>Medir</small></button><button class="key save-key" id="saveBtn" type="button"><span>MEM</span><small>Guardar</small></button></div>
-            <p class="keypad-hint" id="keypadHint" aria-live="polite">Comienza pulsando POWER.</p><div class="meter-footer"><span>Respuesta fotópica · Corrección coseno</span><span>Uso didáctico</span></div>
+        <section class="view-panel" id="gridView" hidden>
+          <div class="panel-title"><div><p class="eyebrow">REJILLA DE ILUMINANCIA</p><h2>Genera puntos a partir de las dimensiones</h2></div><span class="norm-badge">EN 12464-1 · 5.4</span></div>
+          <div class="grid-config">
+            <label class="field"><span>Área</span><select id="areaTypeSelect"><option value="task">Área de tarea / actividad</option><option value="immediate">Área circundante inmediata</option><option value="background">Área de fondo</option></select></label>
+            <label class="field"><span>Largo (m)</span><input id="areaLength" type="number" min="0.5" max="100" step="0.1" value="6"></label>
+            <label class="field"><span>Ancho (m)</span><input id="areaWidth" type="number" min="0.5" max="100" step="0.1" value="4"></label>
+            <button id="generateGridBtn" class="primary" type="button">Generar rejilla</button>
           </div>
-        </article>
-        <button class="explain-current" id="explainCurrentBtn" type="button">¿Qué significa esta pantalla?</button>
+          <div class="grid-meta" id="gridMeta"></div>
+          <p class="grid-instruction" id="gridInstruction">Genera la rejilla y registra cada punto.</p>
+          <div class="measurement-grid" id="measurementGrid"></div>
+          <div class="grid-actions"><button id="recordNextGridBtn" type="button">Registrar siguiente punto</button><button id="resetGridBtn" type="button">Reiniciar lecturas</button></div>
+        </section>
+
+        <section class="view-panel" id="cylView" hidden>
+          <div class="panel-title"><div><p class="eyebrow">ILUMINANCIA CILÍNDRICA</p><h2>Promedio de cuatro direcciones verticales</h2></div><span class="norm-badge">EN 12464-1 · 5.6.2</span></div>
+          <div class="cyl-config"><label class="field"><span>Altura / postura</span><select id="cylHeightSelect"><option value="1.2">Persona sentada · 1,2 m</option><option value="1.6">Persona de pie · 1,6 m</option></select></label></div>
+          <div class="cyl-compass" id="cylCompass">
+            <button type="button" data-dir="0"><span>0°</span><strong>----</strong></button>
+            <button type="button" data-dir="90"><span>90°</span><strong>----</strong></button>
+            <button type="button" data-dir="180"><span>180°</span><strong>----</strong></button>
+            <button type="button" data-dir="270"><span>270°</span><strong>----</strong></button>
+          </div>
+          <div class="cyl-result"><span>Ēz aproximada</span><strong id="cylAverage">----</strong><small id="cylReference"></small></div>
+          <p class="micro-note">El simulador usa cuatro iluminancias verticales ortogonales como aproximación didáctica de la iluminancia cilíndrica media.</p>
+        </section>
+
+        <section class="view-panel" id="resultsView" hidden>
+          <div class="panel-title"><div><p class="eyebrow">ANÁLISIS</p><h2>Resultado de la práctica</h2></div><button id="printReportBtn" class="primary" type="button">Imprimir / PDF</button></div>
+          <div class="result-hero" id="resultHero"></div>
+          <div class="result-grid" id="resultGrid"></div>
+          <div class="report-note"><strong>Importante</strong><p>La comparación es didáctica. Una medición simulada no demuestra por sí sola la iluminancia mantenida de una instalación ni sustituye un estudio profesional.</p></div>
+        </section>
+
+        <section class="view-panel" id="memoryView" hidden>
+          <div class="panel-title"><div><p class="eyebrow">MEMORIA LOCAL</p><h2>Prácticas guardadas</h2></div><button id="clearMemoryBtn" type="button">Vaciar memoria</button></div>
+          <div class="memory-list" id="memoryList"></div>
+        </section>
       </section>
 
-      <aside class="learning-panel" aria-labelledby="learningTitle">
-        <div class="learning-header"><div><p class="eyebrow">PANEL DIDÁCTICO</p><h2 id="learningTitle">¿Qué estás viendo?</h2></div><span class="live-pill" id="learningStatus">Equipo apagado</span></div>
-        <div class="lesson-card accent" id="lessonCard"><span class="lesson-kicker" id="lessonKicker">PREPARACIÓN</span><h3 id="lessonTitle">Antes de medir</h3><div class="lesson-facts" aria-live="polite"><div><span>¿Qué es?</span><p id="lessonText">Es la revisión previa del instrumento y su fotodetector.</p></div><div><span>¿Para qué sirve?</span><p id="lessonPurpose">Permite detectar daños, suciedad, batería insuficiente o una configuración inadecuada.</p></div><div><span>¿Cómo se interpreta?</span><p id="lessonInterpret">El difusor debe estar limpio, íntegro y con calibración vigente antes de comprobar el cero.</p></div></div></div>
-        <div class="settings-summary"><button type="button" class="setting-explain" data-topic="unit"><span>Unidad</span><strong id="summaryUnit">lux</strong><small id="summaryUnitHelp">Iluminancia SI</small><i>Ver explicación</i></button><button type="button" class="setting-explain" data-topic="plane"><span>Plano</span><strong id="summaryPlane">Horizontal</strong><small id="summaryPlaneHelp">Superficie de la tarea</small><i>Ver explicación</i></button><button type="button" class="setting-explain" data-topic="position"><span>Sensor</span><strong id="summaryPosition">Correcto</strong><small id="summaryPositionHelp">Sin sombra ni inclinación</small><i>Ver explicación</i></button><button type="button" class="setting-explain" data-topic="range"><span>Rango</span><strong id="summaryRange">AUTO</strong><small id="summaryRangeHelp">Selección automática</small><i>Ver explicación</i></button></div>
-        <div class="interpretation-card"><div class="interpretation-heading"><strong>Interpretación simulada</strong><span id="qualityBadge" class="risk neutral">Sin medición</span></div><p id="interpretationText">Enciende y configura el equipo para comenzar.</p></div>
-        <details class="quick-reference"><summary>Referencia rápida</summary><dl><div><dt>lux (lx)</dt><dd>Flujo luminoso que llega a una superficie: 1 lux = 1 lumen/m².</dd></div><div><dt>fc</dt><dd>Foot-candle. 1 fc equivale a 10,764 lux.</dd></div><div><dt>Eprom</dt><dd>Promedio aritmético de los puntos medidos en el área.</dd></div><div><dt>Uniformidad</dt><dd>Relación entre el mínimo y el promedio: Emin / Eprom.</dd></div><div><dt>OL</dt><dd>Sobrecarga: el nivel supera el rango seleccionado.</dd></div><div><dt>HOLD</dt><dd>Congela la lectura; no continúa midiendo.</dd></div></dl></details>
+      <aside class="learning-panel card">
+        <div class="learning-head"><div><p class="eyebrow">PANEL DIDÁCTICO</p><h2>Qué significa lo que haces</h2></div><span id="learningState">Equipo apagado</span></div>
+        <article class="lesson" id="lessonCard"><span id="lessonKicker">PREPARACIÓN</span><h3 id="lessonTitle">Antes de medir</h3><p id="lessonText">Inspecciona el sensor, retira la tapa para estabilizarlo y comprueba el cero antes de medir.</p></article>
+        <article class="norm-card"><span>NORMA / TAREA</span><h3 id="normTask">—</h3><div class="norm-values" id="normValues"></div><small id="normNote"></small></article>
+        <article class="can-measure"><h3>¿Qué puede darte este luxómetro?</h3><ul><li><b>✓</b><span><strong>Iluminancia</strong>Medición directa en lux/fc.</span></li><li><b>✓</b><span><strong>Uniformidad</strong>Se calcula a partir de varios puntos.</span></li><li><b>≈</b><span><strong>Iluminancia cilíndrica</strong>Aproximación con cuatro direcciones.</span></li><li class="no"><b>×</b><span><strong>UGR, Ra/CRI, luminancia y flicker</strong>No los mide directamente este luxómetro básico.</span></li></ul></article>
+        <article class="metrology-card"><h3>Calidad de la medición</h3><div id="metrologyFlags"></div></article>
       </aside>
     </main>
 
+    <footer class="page-footer"><span>© La Movida de SST Plus</span><span>Elaborado por <strong>David Linares Brea</strong></span><a href="mailto:info@movidasst.com">info@movidasst.com</a><a href="https://www.movidasst.com">www.movidasst.com</a></footer>
+
+    <nav class="mobile-dock" aria-label="Controles móviles"><button data-view="spot" class="active"><span>☀</span>Puntual</button><button data-view="grid"><span>▦</span>Rejilla</button><button id="mobileRunBtn" class="run"><span>▶</span>Medir</button><button data-view="results"><span>✓</span>Resultados</button></nav>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <aside class="guide-coach" id="guideCoach" aria-live="polite"><div class="guide-coach-copy"><span id="guideCoachStep">SIGUIENTE · PASO 1 DE 10</span><strong id="guideCoachTitle">Inspecciona y enciende</strong><p id="guideCoachText">Pulsa Encender para iniciar la autocomprobación.</p></div><button id="guideCoachLocate" type="button">Mostrarme</button></aside>
-    <nav class="mobile-dock" aria-label="Controles rápidos"><button id="mobilePowerBtn" type="button"><span>⏻</span>Equipo</button><button id="mobileMenuBtn" type="button"><span>☰</span>Menú</button><button id="mobileRunBtn" class="mobile-run" type="button"><span>▶</span>Medir</button><button id="mobileHelpBtn" type="button"><span>?</span>Ayuda</button></nav>
 
-    <dialog id="helpDialog" class="help-dialog"><form method="dialog"><button class="dialog-close" value="close" aria-label="Cerrar">×</button><p class="eyebrow">MANUAL DE USUARIO</p><h2>Cómo usar e interpretar el MLX–PRO 900</h2><p class="dialog-intro">Consulta una función mientras practicas. Los nombres y la ubicación de controles pueden variar según el equipo real.</p>
-      <label class="manual-search" for="manualSearch"><span>Buscar en el manual</span><input id="manualSearch" type="search" placeholder="Ej.: lux, rango, uniformidad…"></label>
-      <nav class="manual-nav"><button type="button" data-manual-target="manual-start">Primeros pasos</button><button type="button" data-manual-target="manual-position">Posición</button><button type="button" data-manual-target="manual-grid">Malla</button><button type="button" data-manual-target="manual-errors">Problemas</button></nav>
-      <div class="manual-quick-start"><strong>Secuencia recomendada</strong><ol><li>Inspeccionar</li><li>Comprobar cero</li><li>Configurar</li><li>Posicionar</li><li>Medir</li><li>Documentar</li></ol></div>
-      <h3>Botones físicos</h3><div class="help-grid"><div><strong>POWER</strong><span>Enciende o apaga.</span></div><div><strong>MENU</strong><span>Abre unidad, rango, vistas y memoria.</span></div><div><strong>▲ / ▼</strong><span>Recorre opciones o puntos.</span></div><div><strong>OK</strong><span>Confirma o registra un punto.</span></div><div><strong>▶Ⅱ</strong><span>Inicia, pausa o activa HOLD.</span></div><div><strong>MEM</strong><span>Guarda el resultado.</span></div></div>
-      <div class="function-manual">
-        <details id="manual-start" open><summary>Primeros pasos: medición completa</summary><div class="manual-body"><ol><li><strong>Inspecciona:</strong> revisa difusor, cable, pantalla, batería y vigencia metrológica.</li><li><strong>Pon a cero:</strong> cubre totalmente el sensor con su tapa opaca y ejecuta ZERO.</li><li><strong>Configura:</strong> usa lux, selecciona un rango que contenga la lectura y define el plano.</li><li><strong>Posiciona:</strong> coloca el sensor en el plano de la tarea, sin inclinarlo ni proyectar sombra.</li><li><strong>Mide:</strong> espera a que la lectura se estabilice y registra puntos representativos.</li><li><strong>Documenta:</strong> conserva lugar, tarea, horario, luz natural/artificial, plano, puntos y resultados.</li></ol></div></details>
-        <details id="manual-units"><summary>Lux y foot-candle</summary><div class="manual-body"><p>El lux es la unidad del Sistema Internacional: un lumen distribuido sobre un metro cuadrado. El foot-candle se usa en algunos equipos y documentos: <strong>1 fc = 10,764 lx</strong>.</p><p class="manual-tip"><strong>Idea clave:</strong> cambiar la unidad cambia el número mostrado, no la cantidad física de luz que llega al sensor.</p></div></details>
-        <details id="manual-zero"><summary>Puesta a cero</summary><p>Con el equipo encendido, cubre completamente el fotodetector con la tapa opaca y activa ZERO. Esta comprobación corrige el desplazamiento electrónico; no sustituye la calibración metrológica periódica.</p></details>
-        <details id="manual-range"><summary>Rango y sobrecarga</summary><p>El rango determina el máximo que puede mostrar el equipo y su resolución. Si aparece OL, selecciona un rango superior y repite. AUTO evita la sobrecarga, pero puede cambiar la posición decimal.</p></details>
-        <details id="manual-position"><summary>Plano y posición del sensor</summary><div class="manual-body"><p>El plano se elige según la tarea: horizontal en mesas, vertical en pantallas o superficies verticales y a nivel de piso para circulación. El fotodetector debe quedar sobre el plano, orientado como la superficie evaluada.</p><ul><li>No proyectes tu sombra sobre el sensor.</li><li>No lo inclines si el plano es horizontal.</li><li>No cubras el difusor con dedos, ropa u objetos.</li><li>Evita alterar la iluminación normal del puesto.</li></ul></div></details>
-        <details id="manual-grid"><summary>Malla, promedio y uniformidad</summary><div class="manual-body"><p>Una lectura aislada describe solo un punto. La malla ayuda a representar cómo se distribuye la iluminancia en el área.</p><dl class="manual-dictionary"><div><dt>Eprom</dt><dd>Suma de lecturas dividida entre el número de puntos.</dd></div><div><dt>Emin</dt><dd>Menor lectura registrada.</dd></div><div><dt>Uniformidad</dt><dd>Emin / Eprom. Cuanto más se acerca a 1, más uniforme es la distribución.</dd></div></dl><p class="manual-tip"><strong>Atención:</strong> el número y la ubicación de puntos deben definirse con el método o la norma aplicable; nueve puntos son una práctica didáctica.</p></div></details>
-        <details id="manual-interpret"><summary>Interpretar sin confundir</summary><p>El simulador muestra una referencia pedagógica del escenario, no un límite legal. La valoración real depende de la tarea, la norma aplicable, la edad visual, el contraste, el deslumbramiento, la uniformidad, el mantenimiento y las condiciones de luz natural.</p></details>
-        <details id="manual-errors"><summary>Errores frecuentes</summary><div class="manual-body"><ul><li><strong>OL:</strong> aumenta el rango.</li><li><strong>Lectura baja inesperada:</strong> revisa sombra, inclinación o sensor cubierto.</li><li><strong>Cero incorrecto:</strong> repite con la tapa opaca completamente colocada.</li><li><strong>Solo un punto:</strong> diseña una malla cuando debas caracterizar un área.</li><li><strong>Luz natural variable:</strong> registra hora, clima, persianas y estado de luminarias.</li><li><strong>Confundir lux con luminancia:</strong> el luxómetro mide iluminancia sobre una superficie.</li></ul></div></details>
-        <details id="manual-glossary"><summary>Glosario esencial</summary><div class="manual-body"><dl class="manual-dictionary"><div><dt>Iluminancia</dt><dd>Cantidad de flujo luminoso que llega a una superficie.</dd></div><div><dt>Fotodetector</dt><dd>Sensor que transforma la luz incidente en una señal medible.</dd></div><div><dt>Respuesta fotópica</dt><dd>Aproximación a la sensibilidad visual humana en condiciones diurnas.</dd></div><div><dt>Corrección coseno</dt><dd>Capacidad del sensor para responder a luz que llega con distintos ángulos.</dd></div><div><dt>HOLD</dt><dd>Función que congela la lectura visible.</dd></div></dl></div></details>
-        <details id="manual-shortcuts"><summary>Atajos de teclado</summary><p><strong>P:</strong> encender · <strong>M:</strong> menú · <strong>↑/↓:</strong> recorrer · <strong>Enter:</strong> aceptar · <strong>Espacio:</strong> medir/HOLD · <strong>S:</strong> guardar · <strong>Esc:</strong> volver.</p></details>
-      </div><p id="manualEmpty" class="manual-empty" hidden>No encontramos ese término. Prueba con “lux”, “rango”, “sensor” o “uniformidad”.</p><p class="help-note">Completa primero el modo guiado. Después cambia de escenario y provoca errores de posición para observar su efecto.</p><div class="dialog-actions"><button id="manualTutorialBtn" class="secondary-dialog-btn" type="button">Abrir tutorial guiado</button><button class="primary-dialog-btn" value="close">Volver al equipo</button></div>
-    </form></dialog>
-
-    <dialog id="tutorialDialog" class="tutorial-dialog" aria-labelledby="tutorialTitle"><form method="dialog"><button class="dialog-close" value="close" aria-label="Cerrar tutorial">×</button><div class="tutorial-brand"><img src="assets/logo-movida-sst-plus.svg" alt=""><span>LABORATORIO DIDÁCTICO</span></div><div class="tutorial-status"><span id="tutorialCounter">1 de 3</span><div aria-hidden="true"><i class="active"></i><i></i><i></i></div></div>
-      <section class="tutorial-page" data-tutorial-step="0"><p class="eyebrow">BIENVENIDA</p><h2 id="tutorialTitle">Aprende el método, no solo los botones</h2><p>El objetivo es comprender qué estás midiendo, dónde colocar el sensor y por qué una sola lectura puede ser insuficiente.</p><ol class="tutorial-flow"><li><i>1</i><span>Inspeccionar</span></li><li><i>2</i><span>Cero</span></li><li><i>3</i><span>Configurar</span></li><li><i>4</i><span>Posicionar</span></li><li><i>5</i><span>Medir</span></li><li><i>6</i><span>Documentar</span></li></ol></section>
-      <section class="tutorial-page" data-tutorial-step="1" hidden><p class="eyebrow">DOS IDEAS CLAVE</p><h2>Magnitud y distribución responden preguntas distintas</h2><div class="tutorial-concepts"><div><strong>lux</strong><span>¿Cuánta luz llega a este punto?</span><small>Lectura puntual sobre el plano.</small></div><div><strong>U₀</strong><span>¿Qué tan uniforme es el área?</span><small>Relación Emin / Eprom.</small></div></div><p class="tutorial-callout">Una lectura puede parecer suficiente y ocultar zonas oscuras. La malla permite reconocer diferencias espaciales.</p></section>
-      <section class="tutorial-page" data-tutorial-step="2" hidden><p class="eyebrow">APRENDER HACIENDO</p><h2>La interfaz reacciona a tus decisiones</h2><div class="tutorial-tools"><div><i>✓</i><span><strong>Guía de 10 pasos</strong>Se completa automáticamente.</span></div><div><i>↘</i><span><strong>Errores de posición</strong>Observa sombra, inclinación y obstrucción.</span></div><div><i>9</i><span><strong>Malla interactiva</strong>Registra puntos y calcula uniformidad.</span></div></div><p class="tutorial-callout warning">Los resultados son simulados y no sustituyen una evaluación profesional.</p></section>
-      <div class="tutorial-actions"><button id="tutorialSkipBtn" class="tutorial-skip" value="close">Explorar libremente</button><div><button id="tutorialBackBtn" type="button" hidden>Anterior</button><button id="tutorialNextBtn" type="button">Siguiente</button><button id="tutorialStartBtn" type="button" hidden>Iniciar práctica guiada</button></div></div>
-    </form></dialog>
-
-    <footer class="page-footer"><span>© La Movida de SST Plus</span><span>Elaborado por <strong>David Linares Brea</strong></span><a href="mailto:info@movidasst.com">info@movidasst.com</a><a href="tel:+56968615650">+56 9 6861 5650</a><a href="https://whatsapp.com/channel/0029Va0mlH5Jf05mrcCz8r3e">Canal de WhatsApp</a></footer>
+    <dialog id="manualDialog" class="manual-dialog">
+      <form method="dialog">
+        <button class="dialog-close" value="close" aria-label="Cerrar">×</button>
+        <p class="eyebrow">MANUAL DIDÁCTICO · MLX–PRO 900</p><h2>Operación y criterios de medición</h2>
+        <div class="manual-grid">
+          <details open><summary>Secuencia recomendada</summary><ol><li>Inspecciona el sensor.</li><li>Retira la tapa y deja estabilizar el detector.</li><li>Con la tapa colocada, ejecuta ZERO.</li><li>Selecciona unidad, rango y perfil de fuente.</li><li>Define plano y evita sombra/obstrucción.</li><li>Mide y registra puntos representativos.</li><li>Genera la rejilla según dimensiones cuando corresponda.</li><li>Analiza promedio, mínimo y uniformidad.</li></ol></details>
+          <details><summary>Botones del equipo</summary><p><strong>RAN:</strong> cambia rangos manuales; mantener pulsado vuelve a AUTO. <strong>HOLD/ZERO:</strong> pulsación corta retiene; larga ejecuta cero si la tapa está puesta. <strong>REL/PEAK:</strong> corta activa referencia relativa; larga activa/desactiva pico. <strong>MAX/MIN:</strong> recorre lectura en vivo, máximo y mínimo.</p></details>
+          <details><summary>Rango y resolución</summary><p>Los rangos manuales modifican el fondo de escala y la resolución visible. Si aparece <strong>OL</strong>, aumenta el rango y repite la lectura. AUTO selecciona automáticamente un rango capaz de contener el valor.</p></details>
+          <details><summary>Respuesta angular</summary><p>La lectura depende de la orientación del fotodetector y de su respuesta direccional. El modo 30°/60° permite observar la combinación entre la geometría de incidencia y una desviación coseno simulada.</p></details>
+          <details><summary>Fuente y respuesta espectral</summary><p>Un luxómetro intenta aproximar la sensibilidad fotópica V(λ), pero los instrumentos reales presentan desajuste espectral. El perfil LS del simulador muestra cómo una corrección dependiente de fuente puede modificar la lectura.</p></details>
+          <details><summary>Rejilla y áreas</summary><p>La evaluación distingue área de tarea, área circundante inmediata y área de fondo. La rejilla se genera con el método de tamaño de celda de EN 12464-1:2022; los puntos se consideran en los centros de las celdas.</p></details>
+          <details><summary>Luz natural y uniformidad</summary><p>Cuando existe aporte significativo de luz natural, el simulador presenta U₀ como indicador descriptivo y evita emitir un juicio normativo de uniformidad basado en los valores aplicables a iluminación eléctrica.</p></details>
+          <details><summary>Alcance</summary><p>Recurso educativo. Los valores son simulados. No sustituye calibración, trazabilidad metrológica, estrategia de muestreo, evaluación de incertidumbre ni un estudio profesional.</p></details>
+        </div>
+        <button class="primary wide" value="close">Volver al simulador</button>
+      </form>
+    </dialog>
   </div>
+
   <script type="module" src="app.js"></script>
 </body>
 </html>
