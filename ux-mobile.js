@@ -1,151 +1,35 @@
-(() => {
-  'use strict';
-
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-  const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
-
-  function makeCoach() {
-    if ($('.ux-mobile-coach')) return $('.ux-mobile-coach');
-    const app = $('.app-grid');
-    if (!app) return null;
-
-    const coach = document.createElement('section');
-    coach.className = 'ux-mobile-coach';
-    coach.setAttribute('aria-live', 'polite');
-    coach.innerHTML = `
-      <div class="ux-mobile-coach__copy">
-        <span class="ux-mobile-coach__step">PRÁCTICA GUIADA</span>
-        <strong class="ux-mobile-coach__title">Siguiente paso</strong>
-        <span class="ux-mobile-coach__meta">Sigue la secuencia recomendada</span>
-      </div>
-      <div class="ux-mobile-coach__actions">
-        <button class="ux-mobile-coach__config" type="button">Configurar</button>
-        <button class="ux-mobile-coach__next" type="button">Próximo paso</button>
-      </div>`;
-    app.parentNode.insertBefore(coach, app);
-
-    $('.ux-mobile-coach__config', coach)?.addEventListener('click', () => {
-      const panel = $('.control-panel');
-      if (!panel) return;
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      panel.classList.add('ux-setup-highlight');
-      setTimeout(() => panel.classList.remove('ux-setup-highlight'), 1600);
-    });
-
-    $('.ux-mobile-coach__next', coach)?.addEventListener('click', () => {
-      const locate = $('#guideLocate');
-      if (locate && !locate.hidden) locate.click();
-      else $('.lab-stage')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-
-    return coach;
-  }
-
-  function makeScenarioSummary() {
-    if ($('.ux-mobile-summary')) return $('.ux-mobile-summary');
-    const panel = $('.control-panel');
-    const scenarioSummary = $('#scenarioSummary');
-    if (!panel || !scenarioSummary) return null;
-
-    const summary = document.createElement('div');
-    summary.className = 'ux-mobile-summary';
-    summary.innerHTML = `
-      <div><strong>Escenario actual</strong><span>—</span></div>
-      <button type="button">Ir al instrumento</button>`;
-    scenarioSummary.insertAdjacentElement('afterend', summary);
-    $('button', summary)?.addEventListener('click', () => $('.lab-stage')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-    return summary;
-  }
-
-  function syncGuide() {
-    const coach = makeCoach();
-    if (!coach) return;
-    const step = $('#guideStep')?.textContent?.trim() || 'Práctica guiada';
-    const title = $('#guideTitle')?.textContent?.trim() || 'Siguiente paso';
-    const percent = $('#guidePercent')?.textContent?.trim() || '0%';
-    const state = $('#learningState')?.textContent?.trim() || '';
-    $('.ux-mobile-coach__step', coach).textContent = step;
-    $('.ux-mobile-coach__title', coach).textContent = title;
-    $('.ux-mobile-coach__meta', coach).textContent = `${percent}${state ? ` · ${state}` : ''}`;
-  }
-
-  function syncScenario() {
-    const summary = makeScenarioSummary();
-    if (!summary) return;
-    const scenario = $('#scenarioSelect');
-    const plane = $('#planeSelect');
-    const name = scenario?.selectedOptions?.[0]?.textContent?.trim() || 'Escenario';
-    const planeName = plane?.selectedOptions?.[0]?.textContent?.trim() || '';
-    $('strong', summary).textContent = name;
-    $('span', summary).textContent = planeName;
-  }
-
-  function improveSemantics() {
-    $('#screenMessage')?.setAttribute('aria-live', 'polite');
-    $('#guideCard')?.setAttribute('aria-live', 'polite');
-    $('#measurementGrid')?.setAttribute('aria-label', 'Puntos de la rejilla de iluminancia');
-
-    $$('.view-tabs [data-view]').forEach(btn => {
-      btn.setAttribute('role', 'tab');
-      btn.setAttribute('aria-selected', btn.classList.contains('active') ? 'true' : 'false');
-    });
-
-    $$('button').forEach(btn => {
-      if (!btn.hasAttribute('type')) btn.setAttribute('type', 'button');
-    });
-  }
-
-  function bindViewScrolling() {
-    $$('[data-view]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        requestAnimationFrame(() => {
-          $$('.view-tabs [data-view]').forEach(tab => tab.setAttribute('aria-selected', tab.classList.contains('active') ? 'true' : 'false'));
-          if (isMobile()) setTimeout(() => $('.lab-stage')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
-        });
-      });
-    });
-  }
-
-  function observeLearningState() {
-    const targets = ['guideStep','guideTitle','guidePercent','learningState','scenarioSummary','runStatus','zeroStatus','sensorStatus']
-      .map(id => document.getElementById(id)).filter(Boolean);
-    if (!targets.length) return;
-    const observer = new MutationObserver(() => {
-      syncGuide();
-      syncScenario();
-    });
-    targets.forEach(node => observer.observe(node, { childList: true, subtree: true, characterData: true }));
-  }
-
-  function bindConfiguration() {
-    ['scenarioSelect','planeSelect','lightConditionSelect','positionSelect','angleSelect','sourceProfileSelect','rangeSelect']
-      .map(id => document.getElementById(id)).filter(Boolean)
-      .forEach(el => el.addEventListener('change', () => {
-        syncScenario();
-        syncGuide();
-      }));
-  }
-
-  function keepFocusVisible() {
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Tab') document.documentElement.classList.add('ux-keyboard');
-    }, { passive: true });
-    document.addEventListener('pointerdown', () => document.documentElement.classList.remove('ux-keyboard'), { passive: true });
-  }
-
-  function init() {
-    makeCoach();
-    makeScenarioSummary();
-    improveSemantics();
-    bindViewScrolling();
-    bindConfiguration();
-    observeLearningState();
-    keepFocusVisible();
-    syncGuide();
-    syncScenario();
-  }
-
-  if (document.readyState === 'complete') init();
-  else window.addEventListener('load', init, { once: true });
+(()=>{'use strict';
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const TK='movida-sst-luxometro-tutorial-v3';
+const steps=[
+['power','Enciende el luxómetro','Toca POWER y espera la autocomprobación.','#powerBtn'],
+['stabilize','Estabiliza el fotodetector','Con la tapa retirada, pulsa 2m / ESTABILIZAR.','#conditionBtn'],
+['capOn','Cubre el sensor','Coloca la tapa opaca antes de ejecutar ZERO.','#sensorCapBtn'],
+['zero','Ejecuta ZERO','Pulsa ZERO con tapa y confirma ZERO OK.','#quickZeroBtn'],
+['capOff','Retira la tapa','Deja el fotodetector expuesto para medir.','#sensorCapBtn'],
+['align','Alinea el sensor','Usa posición correcta y ángulo 0°.','#positionSelect'],
+['measure','Realiza una lectura','Pulsa MEDIR y espera una lectura estable.','#runBtn'],
+['gridView','Abre la rejilla','Una sola lectura no describe un área completa.','.view-tabs [data-view="grid"]'],
+['grid','Genera la rejilla','Define dimensiones y pulsa Generar rejilla.','#generateGridBtn'],
+['point','Registra puntos','Pulsa Registrar siguiente punto o toca un punto.','#recordNextGridBtn'],
+['results','Interpreta resultados','Compara promedio y uniformidad; no los confundas con UGR o Ra.','.view-tabs [data-view="results"]']];
+const labels=['POWER','2m','Tapa','ZERO','Destapar','Alinear','Medir','Rejilla','Generar','Puntos','Resultado'];
+const controls=[['#sensorCapBtn','☀','Cabezal / tapa','Coloca o retira la tapa opaca del fotodetector.'],['#powerBtn','⏻','POWER','Enciende o apaga y ejecuta la autocomprobación.'],['#rangeBtn','RAN','RAN · AUTO/MANU','Corta: cambia rango. Larga: vuelve a AUTO.'],['#unitBtn','Lx','Lx / Fc','Alterna lux y foot-candle.'],['#maxMinBtn','MAX','MAX / MIN','Recorre lectura en vivo, máximo y mínimo.'],['#holdZeroBtn','HOLD','HOLD / ZERO','Corta: retiene. Larga: ZERO con tapa.'],['#relPeakBtn','REL','REL / PEAK','Corta: referencia relativa. Larga: PEAK.'],['#sourceBtn','LS','LS · Fuente','Cambia el perfil espectral didáctico de fuente.'],['#conditionBtn','2m','ESTABILIZAR','Simula el tiempo previo de respuesta del detector.'],['#runBtn','▶','MEDIR','Inicia o detiene la adquisición.']];
+const done=Object.fromEntries(steps.map(s=>[s[0],false]));let guided=true,last=-1,ci=0,ti=0,opened=false;
+const idx=()=>steps.findIndex(s=>!done[s[0]]),pct=()=>Math.round(Object.values(done).filter(Boolean).length/steps.length*100);
+function mark(k){if(k in done&&!done[k]){done[k]=true;sync()}}
+function card(){if($('.lux-journey-card'))return $('.lux-journey-card');let old=$('#guideCard');if(!old)return null;let c=document.createElement('section');c.className='lux-journey-card';c.innerHTML=`<div class="lux-journey-head"><span id="lgStep"></span><span id="lgPct"></span></div><div class="lux-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><i id="lgBar"></i></div><h3 id="lgTitle"></h3><p id="lgText"></p><ol class="lux-checklist">${steps.map((s,i)=>`<li data-lg="${s[0]}"><i>${i+1}</i><span>${labels[i]}</span></li>`).join('')}</ol><div class="lux-journey-actions"><button id="lgLocate" class="lux-locate">Muéstrame dónde</button><button id="lgReset">Reiniciar</button></div>`;old.after(c);$('#lgLocate').onclick=locate;$('#lgReset').onclick=()=>{Object.keys(done).forEach(k=>done[k]=false);last=-1;sync()};return c}
+function coach(){if($('.lux-coach'))return $('.lux-coach');let c=document.createElement('aside');c.className='lux-coach';c.innerHTML='<div><span id="lcStep"></span><strong id="lcTitle"></strong><p id="lcText"></p></div><button id="lcLocate">Mostrarme</button>';document.body.append(c);$('#lcLocate').onclick=locate;return c}
+function sync(){let c=card(),co=coach();if(!c||!co)return;let i=idx(),p=pct();c.hidden=!guided;co.hidden=!guided||i<0||!!$('dialog[open]');$('#lgPct').textContent=p+'%';$('#lgBar').style.width=p+'%';$('.lux-progress',c).setAttribute('aria-valuenow',p);$$('[data-lg]').forEach((li,n)=>{let k=li.dataset.lg;li.classList.toggle('done',done[k]);li.classList.toggle('current',n===i);$('i',li).textContent=done[k]?'✓':n+1});if(i<0){$('#lgStep').textContent='Recorrido completado';$('#lgTitle').textContent='Ahora explora libremente';$('#lgText').textContent='Cambia escenarios, plano, luz, ángulo y perfil LS. Usa Botones o Manual para revisar funciones.';$('#lgLocate').hidden=true;co.hidden=true;return}let s=steps[i];$('#lgLocate').hidden=false;$('#lgStep').textContent=`Paso ${i+1} de ${steps.length}`;$('#lgTitle').textContent=s[1];$('#lgText').textContent=s[2];$('#lcStep').textContent=`SIGUIENTE · PASO ${i+1} DE ${steps.length}`;$('#lcTitle').textContent=s[1];$('#lcText').textContent=s[2];if(last>=0&&last!==i){co.classList.add('advance');setTimeout(()=>co.classList.remove('advance'),800)}last=i}
+function locate(){let i=idx();if(i<0)return;let s=steps[i];if(['power','stabilize','capOn','zero','capOff','align','measure'].includes(s[0]))$('[data-view="spot"]')?.click();if(['grid','point'].includes(s[0]))$('.view-tabs [data-view="grid"]')?.click();setTimeout(()=>{let e=$(s[3]);if(!e)return;e.scrollIntoView({behavior:'smooth',block:'center'});e.classList.add('lux-target');setTimeout(()=>e.classList.remove('lux-target'),2100)},80)}
+function dialogs(){if(!$('#luxControlsDialog')){let d=document.createElement('dialog');d.id='luxControlsDialog';d.className='lux-tour-dialog';d.innerHTML='<div class="lux-dialog-inner"><button class="lux-dialog-close">×</button><p class="lux-dialog-kicker">RECORRIDO DEL INSTRUMENTO</p><h2>Conoce cada control</h2><div id="luxControlCard" class="lux-tour-card"></div><div class="lux-dialog-nav"><button id="cPrev">← Anterior</button><button id="cShow" class="primary">Mostrar en equipo</button><button id="cNext">Siguiente →</button></div></div>';document.body.append(d);$('.lux-dialog-close',d).onclick=()=>d.close();$('#cPrev').onclick=()=>{ci=(ci-1+controls.length)%controls.length;renderControl()};$('#cNext').onclick=()=>{ci=(ci+1)%controls.length;renderControl()};$('#cShow').onclick=()=>{let x=controls[ci];d.close();$('[data-view="spot"]')?.click();setTimeout(()=>{let e=$(x[0]);if(e){e.scrollIntoView({behavior:'smooth',block:'center'});e.classList.add('lux-target');setTimeout(()=>e.classList.remove('lux-target'),2100)}},80)};d.onclose=sync}
+if(!$('#luxTutorialDialog')){let d=document.createElement('dialog');d.id='luxTutorialDialog';d.className='lux-tutorial-dialog';d.innerHTML=`<div class="lux-dialog-inner"><button class="lux-dialog-close">×</button><p class="lux-dialog-kicker">ANTES DE COMENZAR</p><section data-tu="0"><h2>La luz se mide en un plano</h2><p>Orientación, sombra y plano pueden cambiar la lectura. El número solo tiene sentido si sabes dónde y cómo se midió.</p><ol class="lux-tutorial-flow"><li><b>1</b>Preparar</li><li><b>2</b>Alinear</li><li><b>3</b>Medir</li></ol></section><section data-tu="1" hidden><h2>Un punto no describe un área</h2><p>La rejilla permite construir promedio, mínimo, máximo y uniformidad en vez de depender de una lectura aislada.</p><ol class="lux-tutorial-flow"><li><b>Ē</b>Promedio</li><li><b>Emin</b>Mínimo</li><li><b>U₀</b>Uniformidad</li></ol></section><section data-tu="2" hidden><h2>El luxómetro no mide todo</h2><p>UGR, Ra/CRI, luminancia y flicker no salen directamente de este instrumento. La aplicación los mantiene separados.</p><ol class="lux-tutorial-flow"><li><b>lx</b>Directo</li><li><b>U₀</b>Calculado</li><li><b>≠</b>UGR/Ra</li></ol></section><div class="lux-dialog-nav"><button id="tBack">← Atrás</button><button id="tNext">Siguiente →</button><button id="tStart" class="primary" hidden>Comenzar práctica</button></div></div>`;document.body.append(d);$('.lux-dialog-close',d).onclick=()=>d.close();$('#tBack').onclick=()=>{ti=Math.max(0,ti-1);renderTutorial()};$('#tNext').onclick=()=>{ti=Math.min(2,ti+1);renderTutorial()};$('#tStart').onclick=()=>{localStorage.setItem(TK,'1');d.close();locate()};d.onclose=sync}}
+function renderControl(){let x=controls[ci];$('#luxControlCard').innerHTML=`<div class="symbol">${x[1]}</div><h3>${x[2]}</h3><p>${x[3]}</p><small>${ci+1} de ${controls.length}</small>`}
+function renderTutorial(){$$('[data-tu]').forEach((e,i)=>e.hidden=i!==ti);$('#tBack').hidden=ti===0;$('#tNext').hidden=ti===2;$('#tStart').hidden=ti!==2}
+function addHelp(){let a=$('.top-actions');if(!a||$('#luxControlsBtn'))return;let g=$('#guidedToggle');if(g)g.textContent='Guía';let b=document.createElement('button');b.id='luxControlsBtn';b.className='lux-help-btn';b.textContent='Botones';let t=document.createElement('button');t.id='luxTutorialBtn';t.className='lux-help-btn';t.textContent='Tutorial';a.insertBefore(b,$('#manualBtn'));a.insertBefore(t,$('#manualBtn'));b.onclick=()=>{ci=0;renderControl();$('#luxControlsDialog').showModal();sync()};t.onclick=()=>{ti=0;renderTutorial();$('#luxTutorialDialog').showModal();sync()};g?.addEventListener('click',()=>setTimeout(()=>{guided=g.getAttribute('aria-pressed')!=='false';sync()},0))}
+function manual(){let d=$('#manualDialog'),g=$('.manual-grid',d);if(!d||!g||$('.lux-manual-search',d))return;let x=document.createElement('div');x.className='lux-manual-search';x.innerHTML='<label for="luxManualSearch">Buscar en el manual</label><input id="luxManualSearch" type="search" placeholder="ZERO, rango, sombra, rejilla, U₀, LS…"><p class="lux-manual-empty" hidden>No encontré ese término.</p>';g.before(x);let q=$('#luxManualSearch'),e=$('.lux-manual-empty',x);q.oninput=()=>{let s=q.value.toLowerCase(),n=0;$$('details',g).forEach(v=>{let h=!s||v.textContent.toLowerCase().includes(s);v.hidden=!h;if(h)n++});e.hidden=n>0};$('#manualBtn')?.addEventListener('click',()=>setTimeout(sync,0));d.addEventListener('close',()=>{q.value='';$$('details',g).forEach(v=>v.hidden=false);e.hidden=true;sync()})}
+function bind(){$('#powerBtn')?.addEventListener('click',()=>setTimeout(()=>{if(!$('#screen')?.classList.contains('off'))mark('power')},1000));$('#conditionBtn')?.addEventListener('click',()=>setTimeout(()=>{/Estabilizado/i.test($('#sensorStatus')?.textContent||'')&&mark('stabilize')},2000));$('#sensorCapBtn')?.addEventListener('click',()=>setTimeout(()=>{let c=$('#capLabel')?.textContent||'',z=$('#zeroStatus')?.textContent||'';/colocada/i.test(c)&&mark('capOn');/retirada/i.test(c)&&/ZERO OK/i.test(z)&&mark('capOff')},50));$('#quickZeroBtn')?.addEventListener('click',()=>setTimeout(()=>{/ZERO OK/i.test($('#zeroStatus')?.textContent||'')&&mark('zero')},700));let al=()=>{$('#positionSelect')?.value==='correct'&&$('#angleSelect')?.value==='0'&&mark('align')};$('#positionSelect')?.addEventListener('change',al);$('#angleSelect')?.addEventListener('change',al);let me=()=>setTimeout(()=>{let v=$('#mainReading')?.textContent?.trim();v&&!['----','8888','OL'].includes(v)&&mark('measure')},750);$('#runBtn')?.addEventListener('click',me);$('#mobileRunBtn')?.addEventListener('click',me);$$('[data-view="grid"]').forEach(b=>b.addEventListener('click',()=>mark('gridView')));$('#generateGridBtn')?.addEventListener('click',()=>setTimeout(()=>{!/Sin rejilla/i.test($('#gridMeta')?.textContent||'')&&mark('grid')},120));document.addEventListener('click',e=>{if(e.target.closest('#recordNextGridBtn,.measurement-grid .point'))setTimeout(()=>$('.point.recorded')&&mark('point'),120);if(e.target.closest('[data-view="results"]'))mark('results')})}
+function openWatch(){let a=$('#appShell');if(!a)return;let f=()=>{let o=!a.hidden&&!document.body.classList.contains('auth-locked');if(o&&!opened){opened=true;setTimeout(()=>{sync();if(!localStorage.getItem(TK)){ti=0;renderTutorial();$('#luxTutorialDialog').showModal();sync()}},260)}if(!o)opened=false};new MutationObserver(f).observe(a,{attributes:true,attributeFilter:['hidden','aria-hidden']});f()}
+function init(){document.documentElement.dataset.luxUx='v3';dialogs();card();coach();addHelp();manual();bind();openWatch();sync();$$('.view-tabs [data-view]').forEach(b=>b.setAttribute('role','tab'));$('#screenMessage')?.setAttribute('aria-live','polite')}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
