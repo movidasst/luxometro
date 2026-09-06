@@ -1,122 +1,19 @@
-/* Capa de usabilidad didáctica y optimización móvil — Luxómetro Virtual Movida SST+ */
-
-:root{
-  --ux-touch:48px;
-  --ux-safe-bottom:max(12px,env(safe-area-inset-bottom));
-}
-
-html,body{overflow-x:hidden}
-button,select,input{min-height:var(--ux-touch)}
-button{cursor:pointer}
-
-.ux-mobile-coach{display:none}
-.ux-mobile-coach__step{font-weight:900}
-.ux-mobile-coach__title{font-weight:800}
-.ux-mobile-coach__meta{font-size:11px;opacity:.8}
-.ux-mobile-coach__actions{display:flex;gap:8px}
-.ux-mobile-coach__actions button{min-height:42px;padding:8px 10px;border:0;border-radius:9px;font-size:11px;font-weight:900}
-.ux-mobile-coach__next{color:#082642;background:#ffb600}
-.ux-mobile-coach__config{color:#0b4f56;background:#e7f6f4;border:1px solid #b9dcda!important}
-
-.ux-setup-highlight{animation:uxSetupPulse .7s ease-in-out 2}
-@keyframes uxSetupPulse{50%{box-shadow:0 0 0 5px rgba(255,182,0,.22)}}
-
-.ux-mobile-summary{display:none}
-.ux-mobile-summary strong,.ux-mobile-summary span{display:block}
-
-@media (max-width:900px){
-  body{padding-bottom:94px}
-  .app-grid{padding-top:8px}
-  .control-panel,.lab-stage,.learning-panel{border-radius:18px}
-  .control-panel{padding:14px 14px 16px}
-  .control-panel h1{font-size:26px;line-height:1.05}
-  .intro{font-size:14px;line-height:1.5}
-  .field>span{font-size:13px}
-  .field select,.field input{font-size:16px;line-height:1.2}
-  .micro-note{font-size:12px;line-height:1.45}
-
-  .ux-mobile-coach{
-    position:sticky;top:6px;z-index:52;
-    margin:0 10px 10px;padding:11px 12px;
-    display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
-    border:1px solid #cfe1e3;border-radius:14px;
-    background:rgba(255,255,255,.96);box-shadow:0 10px 28px rgba(0,32,91,.13);backdrop-filter:blur(12px)
-  }
-  .ux-mobile-coach__copy{min-width:0}
-  .ux-mobile-coach__step{display:block;color:#007b85;font-size:10px;letter-spacing:.08em}
-  .ux-mobile-coach__title{display:block;margin-top:2px;color:#00205b;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ux-mobile-coach__meta{display:block;margin-top:3px;color:#64748b}
-  .ux-mobile-coach__actions{align-items:center}
-  .ux-mobile-coach__actions button{white-space:nowrap}
-
-  .ux-mobile-summary{
-    margin:0 0 12px;padding:10px 11px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;
-    border:1px solid #d7e2e7;border-radius:12px;background:#f8fbfc
-  }
-  .ux-mobile-summary strong{color:#00205b;font-size:12px}
-  .ux-mobile-summary span{margin-top:2px;color:#64748b;font-size:10px}
-  .ux-mobile-summary button{min-height:40px;padding:7px 10px;border:1px solid #c4d5db;border-radius:8px;color:#005c64;background:#fff;font-size:11px;font-weight:900}
-
-  .view-tabs{scrollbar-width:none;-ms-overflow-style:none}
-  .view-tabs::-webkit-scrollbar{display:none}
-  .view-tabs button{min-height:46px;font-size:12px}
-
-  .meter-wrap{padding-top:0}
-  .meter{width:100%;max-width:470px;border-radius:22px}
-  .meter-brand strong{font-size:14px}
-  .meter-brand small{font-size:10px}
-  .reading-row strong{font-size:clamp(48px,15vw,66px)}
-  .screen-message{font-size:10px}
-  .key{min-height:60px}
-  .key b{font-size:15px}
-  .key small{font-size:8px}
-  .direct-actions button{min-height:44px;font-size:11px}
-
-  .status-cards{grid-template-columns:repeat(2,1fr)}
-  .status-cards span{font-size:10px}
-  .status-cards strong{font-size:11px}
-
-  .panel-title h2{font-size:22px}
-  .grid-instruction{font-size:13px;line-height:1.45}
-  .point{min-height:64px}
-  .point span{font-size:10px}
-  .point strong{font-size:13px}
-  .point small{font-size:9px}
-
-  .lesson p,.norm-card>small,.can-measure li span,.flag{font-size:11px}
-  .can-measure li span strong{font-size:11px}
-
-  .mobile-dock{bottom:var(--ux-safe-bottom)}
-  .mobile-dock button{min-height:56px;font-size:10px}
-  .mobile-dock button span{font-size:16px}
-
-  .toast{bottom:calc(82px + var(--ux-safe-bottom));font-size:13px;line-height:1.35}
-
-  .manual-dialog{width:calc(100vw - 14px);max-height:calc(100dvh - 14px)}
-  .manual-dialog form{padding-bottom:calc(22px + env(safe-area-inset-bottom))}
-}
-
-@media (max-width:620px){
-  .topbar{position:sticky;top:0;z-index:55}
-  .resource-bar{position:sticky;top:64px;z-index:54}
-  .brand strong{font-size:14px}
-  .brand small{font-size:10px}
-
-  .ux-mobile-coach{grid-template-columns:1fr;margin-inline:8px}
-  .ux-mobile-coach__actions{display:grid;grid-template-columns:1fr 1fr}
-  .ux-mobile-coach__actions button{width:100%}
-
-  .scenario-summary strong{font-size:14px}
-  .scenario-summary p{font-size:12px}
-
-  .measurement-grid{gap:7px}
-  .result-grid>div{padding:14px}
-  .result-grid span{font-size:11px}
-  .result-grid small{font-size:10px}
-
-  .page-footer{font-size:10px;text-align:center}
-}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-}
+/* Luxómetro Virtual · identidad óptica + UX didáctica mobile-first */
+:root{--ux-touch:48px;--ux-safe-bottom:max(12px,env(safe-area-inset-bottom));--lux-ink:#123044;--lux-teal:#007b85;--lux-teal-2:#00a0a6;--lux-sun:#ffbf32;--lux-sun-soft:#fff2ba;--lux-mint:#e9f7ef;--lux-ivory:#fbfaf1;--lux-silver:#e8edf0;--lux-line:#cad9da;--lux-shadow:0 22px 55px rgba(35,66,72,.14)}
+html,body{overflow-x:hidden}button,select,input{min-height:var(--ux-touch)}button{cursor:pointer}
+body:not(.auth-locked){color:var(--lux-ink);background:radial-gradient(circle at 84% 7%,rgba(255,191,50,.24),transparent 18rem),radial-gradient(circle at 8% 34%,rgba(0,160,166,.10),transparent 25rem),linear-gradient(180deg,#fbfcf7 0%,#f1f7f4 46%,#edf3f4 100%)}
+.topbar{color:#173e4b!important;background:linear-gradient(100deg,rgba(255,255,255,.98),rgba(248,252,247,.98) 56%,rgba(235,248,242,.98))!important;border-bottom:3px solid var(--lux-sun);box-shadow:0 8px 28px rgba(41,71,75,.10)!important}.topbar .brand{color:#173e4b}.topbar .brand small{color:#5e7981;opacity:1}.topbar .chip{color:#0d6268;border-color:#c8dcda;background:#fff}.topbar .chip:hover{background:#eff8f5}.topbar .chip.active{color:#463700;background:var(--lux-sun);border-color:var(--lux-sun)}
+.resource-bar{background:rgba(255,255,255,.92)!important;backdrop-filter:blur(12px)}.app-grid{position:relative}.card{border-color:#d5e1dd!important;background:rgba(255,255,250,.94)!important;box-shadow:0 16px 38px rgba(35,66,72,.09)!important}.control-panel{background:linear-gradient(180deg,rgba(255,255,250,.98),rgba(246,251,247,.96))!important}.learning-panel{background:linear-gradient(180deg,rgba(249,253,250,.98),rgba(241,248,245,.98))!important}.scenario-summary{border-color:#d6e4db!important;background:linear-gradient(135deg,#fffdf3,#edf8f3)!important}.segmented{background:#e9f2ef!important}.segmented button.active{background:linear-gradient(100deg,#007b85,#00a0a6)!important}
+.lab-stage{position:relative;isolation:isolate;border-color:#d8e5df!important;background:linear-gradient(rgba(0,123,133,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,123,133,.035) 1px,transparent 1px),radial-gradient(circle at 50% 17%,rgba(255,216,82,.24),transparent 15rem),linear-gradient(180deg,#fffef8 0%,#f3f9f5 100%)!important;background-size:32px 32px,32px 32px,auto,auto!important}.lab-stage::before{content:"ÓPTICA · ILUMINANCIA";position:absolute;right:18px;bottom:14px;z-index:-1;color:rgba(0,123,133,.07);font-size:clamp(24px,5vw,62px);font-weight:950;letter-spacing:.08em}.view-tabs{background:#eaf2ef!important;border:1px solid #d5e3dd}.view-tabs button{color:#58717a!important}.view-tabs button.active{color:#163e45!important;background:linear-gradient(100deg,#fff3bd,#ffd05d)!important;box-shadow:0 7px 16px rgba(119,89,0,.10)!important}
+.sensor-rig{height:154px!important;margin-bottom:-25px!important;filter:drop-shadow(0 16px 18px rgba(41,75,76,.16))}.sensor-rig::before{content:"";width:178px;height:178px;position:absolute;left:50%;top:-39px;transform:translateX(-50%);border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,190,44,.13) 0 5deg,transparent 5deg 18deg);mask:radial-gradient(circle,transparent 0 45%,#000 46% 100%);pointer-events:none;opacity:.75}.sensor-cap{width:142px!important;height:108px!important;padding:9px!important;border:1px solid #b9cbc9!important;border-radius:58px 58px 25px 25px!important;background:linear-gradient(155deg,#ffffff,#e5ece9 68%,#cfd9d6)!important;box-shadow:0 16px 30px rgba(34,68,70,.17),inset 0 2px rgba(255,255,255,.9)!important}.sensor-cap::before{content:"PHOTO";position:absolute;top:7px;right:10px;color:#4d7a7d;font-size:7px;font-weight:950;letter-spacing:.12em}.sensor-cap span{width:84px!important;height:64px!important;border:5px solid #f5f7f2!important;background:radial-gradient(circle at 38% 28%,#fff 0 9%,#fff8d7 20%,#f6db75 48%,#b8cfb3 72%,#789a8d 100%)!important;box-shadow:0 0 0 2px #9fb8b3,0 0 30px rgba(255,194,49,.38),inset 0 0 12px rgba(255,255,255,.8)!important}.sensor-cap small{color:#32656a!important;font-size:8px!important;letter-spacing:.06em!important}.sensor-rig.covered::before{opacity:.1}.sensor-rig.covered .sensor-cap{background:linear-gradient(155deg,#dfe6e3,#c8d2cf)!important}.sensor-rig.covered .sensor-cap span{border-color:#8c9d9b!important;background:#263437!important;box-shadow:inset 0 0 0 5px #11191a!important}.sensor-rig.covered .sensor-cap small{color:#7c5e00!important}.sensor-cable{width:205px!important;height:112px!important;top:77px!important;border-width:4px!important;border-color:#6a8584!important;border-top-color:transparent!important;border-left-color:transparent!important}
+.meter{width:min(100%,440px)!important;padding:24px 24px 21px!important;border:1px solid #b8c8c6!important;border-radius:38px 38px 30px 30px!important;background:linear-gradient(90deg,rgba(255,255,255,.75),transparent 15% 85%,rgba(143,167,162,.14)),linear-gradient(155deg,#fafbf7,#e6ece9 70%,#d3dcda)!important;box-shadow:0 30px 58px rgba(37,70,72,.20),inset 0 2px rgba(255,255,255,.95),inset 0 -3px rgba(100,127,123,.12)!important;position:relative}.meter::before,.meter::after{content:"";position:absolute;top:164px;width:7px;height:210px;border-radius:6px;background:repeating-linear-gradient(180deg,#90aaa6 0 8px,#dce5e2 8px 14px);opacity:.48}.meter::before{left:7px}.meter::after{right:7px}.meter-brand{color:#174e53!important;border-bottom:1px solid rgba(0,123,133,.14);padding-bottom:8px}.meter-brand img{filter:drop-shadow(0 4px 7px rgba(0,73,80,.14))}.meter-brand strong{color:#064f57!important;font-size:14px!important}.meter-brand small{color:#6e8586!important;font-size:9px!important}.screen{min-height:246px!important;margin-top:13px!important;padding:14px 15px!important;border:7px solid #234d4e!important;border-radius:19px!important;background:linear-gradient(145deg,#f1f7d4,#dff0cb 62%,#d6e9c7)!important;color:#203d2c!important;box-shadow:inset 0 0 22px rgba(31,68,50,.14),0 0 0 2px #a4b8b3,0 7px 12px rgba(40,70,66,.11)!important}.screen::before{content:"LUX";position:absolute;right:11px;bottom:8px;color:rgba(27,72,52,.12);font:950 32px/1 Consolas,monospace;pointer-events:none}.screen.off{background:#9eaaa0!important;color:#657269!important;filter:saturate(.5) brightness(.85)}.reading-row strong{color:#1c3d2c;text-shadow:0 1px rgba(255,255,255,.5)}.analog i{background:linear-gradient(90deg,#007b85,#77ad47)!important}
+.keypad{gap:10px!important;margin-top:18px!important}.key{min-height:60px!important;border:1px solid #b7c8c5!important;border-radius:18px!important;color:#235e61!important;background:linear-gradient(180deg,#ffffff,#e8efec)!important;box-shadow:0 3px 0 #afbfbc,inset 0 1px rgba(255,255,255,.95)!important}.key:hover{background:linear-gradient(180deg,#fffdf1,#eef4ee)!important}.key:active,.key.active{transform:translateY(2px)!important;box-shadow:0 1px 0 #afbfbc!important}.key b{color:#0b5e65!important;font-size:14px!important}.key small{color:#6a8484!important}.key.power{background:linear-gradient(180deg,#fff3f0,#f4ded9)!important;border-color:#d7b7ad!important}.key.power b{color:#b64232!important}.key.run{background:linear-gradient(180deg,#ffe887,#ffc333)!important;border-color:#ddb342!important;color:#544000!important}.key.run b,.key.run small{color:#594400!important}.key.run.active{background:linear-gradient(180deg,#89c96a,#66a946)!important}.key.run.active b,.key.run.active small{color:white!important}.press-hint{color:#6e8588!important}.direct-actions button{border-color:#c4d3d0!important;color:#175b60!important;background:#f9fcf9!important}.direct-actions button:hover{background:#fff6d8!important;border-color:#e6c764!important}.status-cards div{border-color:#d5e2dd!important;background:#fffef9!important}
+#guideCard{display:none!important}.lux-journey-card{margin-top:18px;padding:15px;border:1px solid #d2dfd8;border-left:5px solid var(--lux-sun);border-radius:16px;background:linear-gradient(145deg,#fffdf2,#eff8f2);box-shadow:0 10px 22px rgba(57,86,75,.07)}.lux-journey-head{display:flex;justify-content:space-between;gap:8px;color:#48706d;font-size:11px;font-weight:900;letter-spacing:.04em}.lux-progress{height:6px;margin:9px 0 12px;overflow:hidden;border-radius:99px;background:#dce9e3}.lux-progress i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ffbf32,#76ad47);transition:width .3s ease}.lux-journey-card h3{margin:0;color:#134c52;font-size:16px}.lux-journey-card p{margin:7px 0 11px;color:#617879;font-size:12px;line-height:1.48}.lux-checklist{margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;list-style:none}.lux-checklist li{min-width:0;padding:7px 5px;display:flex;align-items:center;gap:5px;border:1px solid #d4dfda;border-radius:9px;color:#738986;background:rgba(255,255,255,.65);font-size:9px;font-weight:850}.lux-checklist i{width:19px;height:19px;flex:0 0 auto;display:grid;place-items:center;border-radius:50%;color:#728986;background:#e6eeea;font-style:normal;font-size:9px}.lux-checklist li.current{border-color:#e4bd45;color:#554000;background:#fff7cf}.lux-checklist li.current i{color:#3f3000;background:#ffca43}.lux-checklist li.done{border-color:#acd09e;color:#42633a;background:#f2f9ed}.lux-checklist li.done i{color:white;background:#70ad47}.lux-journey-actions{margin-top:11px;display:grid;grid-template-columns:1fr auto;gap:7px}.lux-journey-actions button{min-height:40px;border:1px solid #c3d6d1;border-radius:9px;background:white;color:#12636a;font-size:11px;font-weight:900}.lux-journey-actions .lux-locate{background:#fff0ad;border-color:#e8c04a;color:#544000}
+.lux-coach{width:min(430px,calc(100vw - 30px));padding:13px;position:fixed;right:16px;bottom:16px;z-index:90;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid rgba(255,199,54,.55);border-radius:16px;background:rgba(248,252,246,.97);box-shadow:0 22px 60px rgba(39,72,67,.25);backdrop-filter:blur(16px)}.lux-coach[hidden]{display:none!important}.lux-coach span,.lux-coach strong,.lux-coach p{display:block}.lux-coach span{color:#168087;font-size:10px;font-weight:950;letter-spacing:.1em}.lux-coach strong{margin-top:2px;color:#16464b;font-size:15px}.lux-coach p{margin:4px 0 0;color:#617879;font-size:12px;line-height:1.35}.lux-coach button{min-height:42px;padding:8px 12px;border:1px solid #e0b62e;border-radius:10px;color:#493800;background:#ffcf54;font-size:11px;font-weight:950}.lux-coach.advance{animation:luxCoachAdvance .7s ease}@keyframes luxCoachAdvance{50%{transform:translateY(-6px);box-shadow:0 26px 65px rgba(39,72,67,.3),0 0 0 7px rgba(255,191,50,.15)}}.lux-target{animation:luxTarget 1s ease-in-out 2!important;position:relative;z-index:91}@keyframes luxTarget{50%{outline:4px solid rgba(255,191,50,.82);outline-offset:5px;filter:drop-shadow(0 0 12px rgba(255,191,50,.35))}}
+.lux-help-btn{min-height:40px;padding:8px 12px;border:1px solid #c8dcda;border-radius:10px;color:#0d6268;background:white;font-size:12px;font-weight:900}.lux-tour-dialog,.lux-tutorial-dialog{width:min(720px,calc(100vw - 24px));max-height:calc(100dvh - 24px);padding:0;border:0;border-radius:22px;color:#173f47;background:#fffef9;box-shadow:0 32px 90px rgba(28,60,61,.32)}.lux-tour-dialog::backdrop,.lux-tutorial-dialog::backdrop{background:rgba(13,48,54,.58);backdrop-filter:blur(4px)}.lux-dialog-inner{padding:24px;position:relative}.lux-dialog-close{width:40px;height:40px;min-height:40px;position:absolute;right:13px;top:13px;border:0;border-radius:50%;color:#154f56;background:#edf5f1;font-size:24px}.lux-dialog-kicker{margin:0;color:#168087;font-size:10px;font-weight:950;letter-spacing:.12em}.lux-dialog-inner h2{margin:6px 44px 8px 0;color:#164d53;font-size:26px}.lux-dialog-inner>p{color:#617879;line-height:1.5}.lux-tour-card{margin-top:16px;padding:18px;border:1px solid #d7e3dc;border-radius:16px;background:linear-gradient(145deg,#fffdf4,#eff8f2)}.lux-tour-card .symbol{width:54px;height:54px;display:grid;place-items:center;border-radius:18px;color:#144f55;background:#ffcf54;font-size:18px;font-weight:950}.lux-tour-card h3{margin:12px 0 4px;color:#154f55;font-size:20px}.lux-tour-card p{margin:0;color:#627979;font-size:14px;line-height:1.5}.lux-tour-card small{display:block;margin-top:10px;color:#7c918d}.lux-dialog-nav{margin-top:15px;display:flex;justify-content:space-between;gap:8px}.lux-dialog-nav button{min-height:44px;padding:9px 13px;border:1px solid #c5d7d2;border-radius:10px;background:white;color:#12636a;font-weight:900}.lux-dialog-nav .primary{border-color:#e4b934;background:#ffcf54;color:#483700}.lux-tutorial-page[hidden]{display:none!important}.lux-tutorial-flow{margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;list-style:none}.lux-tutorial-flow li{padding:11px 8px;border:1px solid #d8e4de;border-radius:11px;background:#f5faf6;text-align:center;color:#436665;font-size:11px;font-weight:850}.lux-tutorial-flow b{display:block;margin-bottom:4px;color:#007b85;font-size:18px}.lux-manual-search{margin:0 0 14px;padding:12px;border:1px solid #d5e3dc;border-radius:13px;background:#f4faf5}.lux-manual-search label{display:block;margin-bottom:6px;color:#164f55;font-size:11px;font-weight:900}.lux-manual-search input{width:100%;min-height:46px;padding:10px 12px;border:1px solid #c6d7d2;border-radius:9px;background:white;font-size:16px}.lux-manual-empty{margin:10px 0;color:#7a6a38;font-size:12px}
+.measurement-grid{background:linear-gradient(145deg,#eef6f0,#fffdf5)!important;border-color:#cedfd7!important}.point{border-color:#c8d8d2!important}.point.recorded{border-color:#9fc98e!important;background:#f0f9e9!important}.norm-badge{color:#5d4900!important;background:#fff1b8!important}.cyl-result{background:#fffdf2!important;border-color:#e5d89e!important}.lesson{background:linear-gradient(145deg,#fffdf2,#edf8f2)!important;border-color:#dddcb7!important}
+@media(max-width:900px){body{padding-bottom:94px}.app-grid{padding:10px!important;display:flex!important;flex-direction:column!important;gap:12px!important}.lab-stage{order:1!important;width:100%;padding:12px!important;border-radius:22px!important}.control-panel{order:2!important;width:100%;padding:15px!important;border-radius:20px!important}.learning-panel{order:3!important;width:100%;border-radius:20px!important}.control-panel h1{font-size:26px;line-height:1.05}.intro{font-size:14px;line-height:1.5}.field>span{font-size:13px}.field select,.field input{font-size:16px;line-height:1.2}.micro-note{font-size:12px;line-height:1.45}.view-tabs{overflow-x:auto!important;display:flex!important;scrollbar-width:none}.view-tabs::-webkit-scrollbar{display:none}.view-tabs button{min-width:94px;min-height:46px;font-size:11px}.meter-wrap{padding-top:2px!important}.meter{width:min(100%,430px)!important}.reading-row strong{font-size:clamp(48px,15vw,66px)!important}.key{min-height:60px!important}.direct-actions button{min-height:44px!important;font-size:11px!important}.status-cards{grid-template-columns:repeat(2,1fr)!important}.panel-title h2{font-size:22px}.point{min-height:64px}.lesson p,.norm-card>small,.can-measure li span,.flag{font-size:11px}.can-measure li span strong{font-size:11px}.mobile-dock{bottom:var(--ux-safe-bottom)!important}.mobile-dock button{min-height:56px!important}.lux-coach{left:9px;right:9px;bottom:calc(72px + var(--ux-safe-bottom));width:auto;padding:10px 11px;border-radius:14px}.lux-coach strong{font-size:13px}.lux-coach p{font-size:11px}.lux-coach button{min-height:40px;padding:7px 9px}.toast{bottom:calc(156px + var(--ux-safe-bottom))!important}.manual-dialog{width:calc(100vw - 14px)!important;max-height:calc(100dvh - 14px)!important}.lux-checklist{display:flex;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}.lux-checklist::-webkit-scrollbar{display:none}.lux-checklist li{min-width:96px;flex:0 0 auto}}
+@media(max-width:620px){.topbar{position:sticky;top:0;z-index:55;padding:8px 10px!important}.resource-bar{position:sticky;top:64px;z-index:54;padding-inline:9px!important}.brand img{width:44px!important;height:44px!important}.brand strong{font-size:13px!important}.brand small{display:none!important}.top-actions{gap:5px}.top-actions .chip,.lux-help-btn{min-height:36px;padding:6px 8px;font-size:10px}.top-actions #guidedToggle{display:inline-flex!important}.lab-stage{padding:8px!important}.sensor-rig{height:132px!important;margin-bottom:-19px!important}.sensor-cap{width:126px!important;height:98px!important}.sensor-cap span{width:72px!important;height:55px!important}.sensor-cable{top:68px!important}.meter{padding:18px 12px 16px!important;border-radius:30px!important}.meter::before,.meter::after{display:none}.screen{min-height:220px!important;padding:12px 10px!important;border-width:6px!important}.reading-row{min-height:78px}.reading-row strong{font-size:52px!important}.keypad{gap:7px!important}.key{min-height:56px!important;border-radius:15px!important}.key b{font-size:13px!important}.key small{font-size:7px!important}.direct-actions{grid-template-columns:1fr 1fr!important}.direct-actions button:last-child{grid-column:1/-1}.status-cards{grid-template-columns:1fr 1fr!important}.measurement-grid{grid-template-columns:repeat(3,minmax(64px,1fr))!important}.result-grid{grid-template-columns:1fr!important}.page-footer{font-size:10px;text-align:center}.lux-coach{grid-template-columns:1fr auto}.lux-coach p{display:none}.lux-tour-dialog,.lux-tutorial-dialog{width:calc(100vw - 14px);max-height:calc(100dvh - 14px)}.lux-dialog-inner{padding:20px 15px}.lux-dialog-inner h2{font-size:22px}.lux-tutorial-flow{grid-template-columns:1fr 1fr}.lux-dialog-nav{display:grid;grid-template-columns:1fr 1fr}.lux-dialog-nav button{width:100%}}
+@media(max-width:390px){.reading-row strong{font-size:46px!important}.key b{font-size:12px!important}.lux-coach span{font-size:9px}.lux-coach strong{font-size:12px}.lux-coach button{font-size:10px}.lux-checklist li{min-width:90px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media print{.lux-coach,.lux-journey-card,.lux-help-btn,.lux-tour-dialog,.lux-tutorial-dialog{display:none!important}}
