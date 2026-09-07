@@ -6,16 +6,22 @@
   <meta name="theme-color" content="#00205b">
   <meta name="description" content="Simulador profesional y didáctico de luxómetro para practicar medición de iluminancia y evaluación de iluminación interior.">
   <title>Luxómetro Virtual · Movida SST+</title>
-  <link rel="icon" type="image/svg+xml" href="assets/logo-movida-sst-plus.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/logo-movida-sst-plus.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ux-mobile.css">
+
+<style id="movida-logo-2026">
+img[src*="logo-movida-sst-plus"]{object-fit:contain!important;object-position:center!important;border-radius:50%!important;filter:drop-shadow(0 7px 12px rgba(0,32,91,.35))!important}
+.login-brand img{width:86px!important;height:86px!important}
+.brand img,.brand-mark{width:62px!important;height:62px!important}
+</style>
 </head>
 <body class="auth-locked">
   <section class="login-gate" id="loginGate" aria-labelledby="loginTitle">
     <div class="login-shell">
       <div class="login-story">
         <a class="login-brand" href="https://laboratorio.movidasst.com" aria-label="Volver al Laboratorio Virtual">
-          <img src="assets/logo-movida-sst-plus.svg" alt="Logo La Movida de SST Plus">
+          <img src="assets/logo-movida-sst-plus.png" alt="Logo La Movida de SST Plus">
           <span><strong>La Movida de SST Plus</strong><small>De la Reacción a la Prevención</small></span>
         </a>
         <div class="login-story-copy">
@@ -46,7 +52,7 @@
 
   <div id="appShell" hidden aria-hidden="true">
     <header class="topbar">
-      <a class="brand" href="https://laboratorio.movidasst.com"><img src="assets/logo-movida-sst-plus.svg" alt="La Movida de SST Plus"><span><strong>La Movida de SST Plus</strong><small>De la Reacción a la Prevención</small></span></a>
+      <a class="brand" href="https://laboratorio.movidasst.com"><img src="assets/logo-movida-sst-plus.png" alt="La Movida de SST Plus"><span><strong>La Movida de SST Plus</strong><small>De la Reacción a la Prevención</small></span></a>
       <div class="top-actions"><button id="guidedToggle" class="chip active" type="button" aria-pressed="true">Modo guiado</button><button id="manualBtn" class="chip" type="button">Manual</button></div>
     </header>
     <nav class="resource-bar"><a href="https://laboratorio.movidasst.com">← MovidaLab HO</a><a href="https://whatsapp.com/channel/0029Va0mlH5Jf05mrcCz8r3e">Canal WhatsApp</a><div class="member-session"><span>Hola, <strong id="memberName">integrante</strong></span><button id="logoutBtn" type="button">Cerrar sesión</button></div></nav>
@@ -106,7 +112,7 @@
               <div class="sensor-cable"></div>
             </div>
             <article class="meter" id="meter">
-              <div class="meter-brand"><img src="assets/logo-movida-sst-plus.svg" alt=""><span><strong>MOVIDA SST+</strong><small>MLX–PRO 900 · SIM</small></span></div>
+              <div class="meter-brand"><img src="assets/logo-movida-sst-plus.png" alt=""><span><strong>MOVIDA SST+</strong><small>MLX–PRO 900 · SIM</small></span></div>
               <div class="screen" id="screen">
                 <div class="screen-top"><span id="modeIndicator">AUTO</span><span id="sourceIndicator">L0</span><span id="holdIndicator">LIVE</span><span class="battery">▮▮▮</span></div>
                 <div class="reading-row"><strong id="mainReading">----</strong><span id="mainUnit">lx</span></div>
