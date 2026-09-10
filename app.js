@@ -122,7 +122,9 @@
   }
 
   function scenario() { return scenarios[state.scenario]; }
+  let preparationVersion = 0;
   function resetMeasurements({ keepGrid = false } = {}) {
+    preparationVersion++; state.conditioning = false; state.zeroing = false;
     stopMeasurement(); Object.assign(state, { currentLux: null, displayedLux: null, minLux: null, maxLux: null, peakLux: null, elapsed: 0, rel: false, relReferenceLux: null, readMode: 'live', peakMode: false });
     if (!keepGrid) { state.grid.readings = Array(state.grid.rows * state.grid.cols).fill(null); state.grid.generated = state.grid.rows > 0; }
     state.cyl.readings = { 0: null, 90: null, 180: null, 270: null };
@@ -131,7 +133,7 @@
   function spatialFactorForIndex(index, rows = state.grid.rows, cols = state.grid.cols) {
     if (!rows || !cols) return 1;
     const r = Math.floor(index / cols), c = index % cols;
-    const x = cols <= 1 ? .5 : c / (cols - 1), y = rows <= 1 ? .5 : r / (rows - 1);
+    const x = (c + .5) / cols, y = (r + .5) / rows;
     switch (scenario().pattern) {
       case 'center': {
         const d = Math.hypot(x - .5, y - .5) / .707; return 1.18 - .48 * clamp(d, 0, 1);
@@ -193,7 +195,7 @@
   function powerToggle() {
     if (state.booting) return;
     if (state.powered) {
-      stopMeasurement(); state.powered = false; state.conditioned = false; state.conditioning = false; state.zeroed = false; resetMeasurements({ keepGrid: true }); updateAll(); return;
+      stopMeasurement(); state.powered = false; state.conditioned = false; state.conditioning = false; state.zeroed = false; resetMeasurements(); updateAll(); return;
     }
     state.booting = true; updateAll();
     setTimeout(() => { state.booting = false; state.powered = true; toast('Autocomprobación completada'); updateAll(); }, 850);
@@ -203,20 +205,22 @@
     if (!state.powered) return toast('Enciende primero el luxómetro');
     if (state.coverOn) return toast('Retira la tapa para exponer el detector a la luz');
     if (state.conditioned || state.conditioning) return;
+    const version = ++preparationVersion;
     state.conditioning = true; updateAll(); toast('Simulando estabilización equivalente a 2 minutos');
-    setTimeout(() => { state.conditioning = false; state.conditioned = true; updateAll(); toast('Sensor estabilizado'); }, 1800);
+    setTimeout(() => { if (version !== preparationVersion || !state.powered || state.coverOn) return; state.conditioning = false; state.conditioned = true; updateAll(); toast('Sensor estabilizado'); }, 1800);
   }
 
   function zeroMeter() {
     if (!state.powered) return toast('Enciende primero el luxómetro');
     if (!state.coverOn) { toast('ZERO requiere el sensor cubierto con la tapa'); highlight('#sensorCapBtn'); return; }
-    stopMeasurement(); $('screenMessage').textContent = 'ADJ';
-    setTimeout(() => { state.zeroed = true; state.currentLux = 0; state.displayedLux = 0; updateAll(); toast('ZERO OK · retira la tapa antes de medir'); }, 900);
+    resetMeasurements(); const version = preparationVersion; state.zeroed = false; state.zeroing = true; updateAll();
+    setTimeout(() => { if (version !== preparationVersion || !state.powered || !state.coverOn) return; state.zeroing = false; state.zeroed = true; state.currentLux = 0; state.displayedLux = 0; updateAll(); toast('ZERO OK · retira la tapa antes de medir'); }, 900);
   }
 
   function startStopMeasurement() {
     if (!state.powered) return toast('Enciende primero el luxómetro');
     if (state.running) { stopMeasurement(); updateAll(); toast('Medición detenida'); return; }
+    if (state.conditioning || state.zeroing) return toast('Espera a que termine la preparación');
     if (state.coverOn) return toast('Retira la tapa del fotodetector');
     if (!state.conditioned) toast('Consejo: estabiliza primero el detector');
     if (!state.zeroed) toast('Consejo: comprueba el cero antes de medir');
@@ -255,10 +259,12 @@
   }
   function cycleUnit() { changeUnit(state.unit === 'lux' ? 'fc' : 'lux'); }
   function cycleSource() {
-    const keys = Object.keys(sourceProfiles); const i = keys.indexOf(state.lsProfile); state.lsProfile = keys[(i + 1) % keys.length]; $('sourceProfileSelect').value = state.lsProfile; resetMeasurements({ keepGrid: true }); updateAll();
+    const keys = Object.keys(sourceProfiles); const i = keys.indexOf(state.lsProfile); state.lsProfile = keys[(i + 1) % keys.length]; $('sourceProfileSelect').value = state.lsProfile; resetMeasurements(); updateAll();
   }
 
   function toggleCover() {
+    preparationVersion++; state.conditioning = false; state.zeroing = false;
+    state.currentLux = null; state.displayedLux = null;
     state.coverOn = !state.coverOn; $('sensorCapBtn').setAttribute('aria-pressed', String(state.coverOn));
     if (state.coverOn) stopMeasurement(); updateAll(); toast(state.coverOn ? 'Tapa colocada' : 'Tapa retirada');
   }
@@ -296,16 +302,28 @@
   function generateGrid() {
     const g = gridGeometry($('areaLength').value, $('areaWidth').value);
     state.grid = { ...state.grid, ...g, area: $('areaTypeSelect').value, readings: Array(g.rows * g.cols).fill(null), generated: true };
-    renderGrid(); updateResults(); updateGuide(); toast(`Rejilla generada · ${g.rows * g.cols} puntos`);
+    renderGrid(); updateResults(); updateGuide(); emitProgress(); toast(`Rejilla generada · ${g.rows * g.cols} puntos`);
+  }
+
+  function canRecord(lux) {
+    if (!state.powered || state.conditioning || state.zeroing || !state.conditioned || !state.zeroed || state.coverOn) {
+      toast('Completa la preparación: estabilizar, ZERO con tapa y destapar'); return false;
+    }
+    if (state.position !== 'correct' || state.angle !== 0) { toast('Corrige sombra, obstrucción e inclinación antes de registrar'); return false; }
+    if (state.hold || state.rel || state.peakMode || state.readMode !== 'live') { toast('Registra en LIVE y ABS; desactiva HOLD, REL y PEAK'); return false; }
+    if (!Number.isFinite(lux) || isOverload(lux)) { toast('Lectura no válida: selecciona AUTO o un rango mayor y repite'); return false; }
+    return true;
   }
 
   function recordGridPoint(index) {
     if (!state.grid.generated) return toast('Genera primero la rejilla');
     if (!state.powered) return toast('Enciende primero el luxómetro');
     if (state.coverOn) return toast('Retira la tapa del sensor');
-    if (!state.conditioned || !state.zeroed) toast('La lectura se registrará, pero la preparación está incompleta');
+    if (!Number.isInteger(index) || index < 0 || index >= state.grid.readings.length) return;
     const spatial = spatialFactorForIndex(index);
     const reading = simulatedLux(spatial);
+    if (!canRecord(reading)) return;
+    stopMeasurement();
     state.grid.readings[index] = reading;
     state.currentLux = reading; state.displayedLux = reading;
     renderGrid(); updateResults(); updateAll(false); toast(`P${index + 1}: ${formatDisplayValue(reading)} ${unitLabel()}`);
@@ -316,7 +334,7 @@
     if (i < 0) return toast('Rejilla completa');
     recordGridPoint(i);
   }
-  function resetGridReadings() { if (!state.grid.generated) return; state.grid.readings = Array(state.grid.rows * state.grid.cols).fill(null); renderGrid(); updateResults(); toast('Lecturas de rejilla reiniciadas'); }
+  function resetGridReadings() { if (!state.grid.generated) return; state.grid.readings = Array(state.grid.rows * state.grid.cols).fill(null); renderGrid(); updateResults(); emitProgress(); toast('Lecturas de rejilla reiniciadas'); }
   function gridStats() {
     const vals = state.grid.readings.filter(Number.isFinite); if (!vals.length) return null;
     const avg = vals.reduce((a, b) => a + b, 0) / vals.length, min = Math.min(...vals), max = Math.max(...vals);
@@ -331,6 +349,7 @@
     const spectral = sourceProfiles[state.lsProfile].factor;
     const position = positionFactors[state.position];
     const reading = Math.max(0, target * dirs[dir] * spectral * position + (Math.random() - .5) * target * .04);
+    if (!canRecord(reading)) return;
     state.cyl.readings[dir] = reading; renderCyl(); toast(`${dir}° registrado · ${formatDisplayValue(reading)} ${unitLabel()}`);
   }
   function cylAverageLux() {
@@ -340,8 +359,8 @@
   function setView(view) {
     state.view = view;
     ['spot', 'grid', 'cyl', 'results', 'memory'].forEach(v => { $(`${v}View`).hidden = v !== view; });
-    $$('[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-    if (view === 'results') updateResults(); if (view === 'memory') renderMemory(); updateLesson();
+    $$('[data-view]').forEach(b => { b.classList.toggle('active', b.dataset.view === view); b.setAttribute('aria-pressed', String(b.dataset.view === view)); b.setAttribute('aria-controls', `${b.dataset.view}View`); });
+    if (view === 'results') updateResults(); if (view === 'memory') renderMemory(); updateLesson(); emitProgress();
   }
 
   function updateScenario() {
@@ -363,9 +382,10 @@
     $('relIndicator').textContent = state.rel ? 'REL' : 'ABS'; $('timerIndicator').textContent = fmtTime(state.elapsed); $('mainUnit').textContent = unitLabel();
     $('minReading').textContent = formatDisplayValue(state.minLux); $('maxReading').textContent = formatDisplayValue(state.maxLux); $('peakReading').textContent = formatDisplayValue(state.peakLux);
     const screenLux = displaySourceLux();
-    if (!state.powered) { $('mainReading').textContent = '----'; $('screenMessage').textContent = 'OFF'; $('analogBar').style.width = '0%'; }
+    if (!state.powered && !state.booting) { $('mainReading').textContent = '----'; $('screenMessage').textContent = 'OFF'; $('analogBar').style.width = '0%'; }
     else if (state.booting) { $('mainReading').textContent = '8888'; $('screenMessage').textContent = 'SELF TEST'; }
-    else if (isOverload(screenLux)) { $('mainReading').textContent = 'OL'; $('screenMessage').textContent = 'SUBE DE RANGO'; $('analogBar').style.width = '100%'; }
+    else if (state.zeroing) { $('mainReading').textContent = '----'; $('screenMessage').textContent = 'ADJ'; }
+    else if (isOverload(state.currentLux) || isOverload(screenLux)) { $('mainReading').textContent = 'OL'; $('screenMessage').textContent = 'SUBE DE RANGO'; $('analogBar').style.width = '100%'; }
     else {
       $('mainReading').textContent = formatDisplayValue(screenLux);
       const pct = Number.isFinite(screenLux) ? clamp(Math.abs(toDisplay(screenLux)) / effectiveRangeDisplay(screenLux) * 100, 0, 100) : 0; $('analogBar').style.width = `${pct}%`;
@@ -393,7 +413,7 @@
     flags.push({ ok: !state.coverOn, text: state.coverOn ? 'Tapa sobre el sensor' : 'Tapa retirada para medir' });
     flags.push({ ok: state.position === 'correct', text: positionLabels[state.position] });
     flags.push({ ok: state.angle === 0, text: state.angle === 0 ? 'Sensor alineado con el plano' : `Sensor inclinado ${state.angle}°` });
-    flags.push({ ok: !isOverload(displaySourceLux()), text: isOverload(displaySourceLux()) ? 'Rango sobrecargado · OL' : 'Rango sin sobrecarga' });
+    flags.push({ ok: !isOverload(state.currentLux), text: isOverload(state.currentLux) ? 'Rango sobrecargado · OL' : 'Rango sin sobrecarga' });
     return flags;
   }
   function renderMetrologyFlags() {
@@ -405,7 +425,7 @@
     if (!state.grid.generated) { $('gridMeta').innerHTML = '<span>Sin rejilla generada</span>'; $('gridInstruction').textContent = 'Introduce las dimensiones y pulsa Generar rejilla.'; return; }
     const g = state.grid; const stats = gridStats();
     $('gridMeta').innerHTML = `<span><b>${g.rows} × ${g.cols}</b> celdas</span><span><b>${g.rows * g.cols}</b> puntos</span><span>Celda aprox. <b>${g.spacingL.toFixed(2)} × ${g.spacingW.toFixed(2)} m</b></span><span>p máx. calculado <b>${g.p.toFixed(2)} m</b></span>`;
-    grid.style.setProperty('--grid-cols', String(Math.min(g.cols, 8)));
+    grid.style.setProperty('--grid-cols', String(g.cols));
     g.readings.forEach((v, i) => {
       const b = document.createElement('button'); b.type = 'button'; b.className = Number.isFinite(v) ? 'point recorded' : 'point';
       b.innerHTML = `<span>P${i + 1}</span><strong>${formatDisplayValue(v)}</strong><small>${Number.isFinite(v) ? unitLabel() : 'pendiente'}</small>`;
@@ -428,9 +448,9 @@
       $('resultGrid').innerHTML = ''; return;
     }
     const enough = stats.avg >= n.required; const uPass = stats.uo >= n.uo; const complete = stats.count === stats.total;
-    let badge = !complete ? 'Resultado provisional' : enough && (natural || uPass) ? 'Cumple la comparación didáctica' : 'Requiere revisión';
+    let badge = !complete ? 'Resultado provisional' : enough && (natural || uPass) ? (natural ? 'Media de referencia alcanzada · U₀ descriptiva' : 'Media y U₀ de referencia alcanzadas') : 'Requiere revisión';
     let cls = !complete ? 'provisional' : enough && (natural || uPass) ? 'pass' : 'fail';
-    $('resultHero').innerHTML = `<div class="verdict ${cls}"><span>${badge}</span><strong>${formatDisplayValue(stats.avg)} ${unitLabel()}</strong><small>${n.label} · ${stats.count}/${stats.total} puntos</small></div><button id="saveEvaluationBtn" type="button">Guardar evaluación</button>`;
+    $('resultHero').innerHTML = `<div class="verdict ${cls}"><span>${badge}</span><strong>${formatDisplayValue(stats.avg)} ${unitLabel()}</strong><small>${n.label} · ${stats.count}/${stats.total} puntos · ${scenario().name} · ${planeLabels[state.plane]} · ${state.grid.length} × ${state.grid.width} m · ${state.lightCondition === 'electric' ? 'Luz eléctrica' : state.lightCondition === 'mixed' ? 'Luz mixta' : 'Luz natural'} · ${state.lsProfile}</small></div><button id="saveEvaluationBtn" type="button" ${complete ? '' : 'disabled'}>Guardar evaluación</button>`;
     $('resultGrid').innerHTML = `
       <div><span>Promedio Ē</span><strong>${formatDisplayValue(stats.avg)} ${unitLabel()}</strong><small>Comparar didácticamente con ${n.required.toFixed(n.required < 100 ? 1 : 0)} lx</small></div>
       <div><span>Mínimo</span><strong>${formatDisplayValue(stats.min)} ${unitLabel()}</strong><small>Lectura menor registrada</small></div>
@@ -442,12 +462,12 @@
   }
 
   function saveSpot() {
-    if (!Number.isFinite(state.currentLux)) return toast('Realiza primero una medición');
+    if (!canRecord(state.currentLux)) return;
     state.memories.unshift({ type: 'Puntual', scenario: scenario().name, valueLux: state.currentLux, unit: state.unit, plane: planeLabels[state.plane], date: new Date().toISOString() });
     saveMemories(); renderMemory(); toast('Lectura guardada');
   }
   function saveEvaluation() {
-    const stats = gridStats(); if (!stats) return;
+    const stats = gridStats(); if (!stats || stats.count !== stats.total) return toast('Completa todos los puntos antes de guardar la evaluación');
     state.memories.unshift({ type: 'Rejilla', scenario: scenario().name, valueLux: stats.avg, minLux: stats.min, maxLux: stats.max, uo: stats.uo, points: `${stats.count}/${stats.total}`, area: areaLabels[state.grid.area], date: new Date().toISOString() });
     saveMemories(); renderMemory(); toast('Evaluación guardada');
   }
@@ -492,12 +512,22 @@
   function highlight(sel) { const el = document.querySelector(sel); if (el) highlightElement(el); }
   function highlightElement(el) { el.classList.add('guide-target'); setTimeout(() => el.classList.remove('guide-target'), 1600); }
 
+  function emitProgress() {
+    const stats = gridStats();
+    document.dispatchEvent(new CustomEvent('lux:state', { detail: {
+      powered: state.powered, conditioned: state.conditioned, zeroed: state.zeroed, coverOn: state.coverOn,
+      aligned: state.position === 'correct' && state.angle === 0,
+      measured: Number.isFinite(state.currentLux) && state.currentLux > 0 && !isOverload(state.currentLux) && !state.rel && !state.hold && !state.peakMode && state.readMode === 'live',
+      view: state.view, generated: state.grid.generated, count: stats?.count || 0, total: stats?.total || 0
+    }}));
+  }
+
   function updateAll(full = true) {
     if (full) updateScenarioSummary();
     updateInstrument(); renderMetrologyFlags(); updateLesson(); updateGuide(); renderCyl();
-    if (state.grid.generated) renderGrid(); if (state.view === 'results') updateResults();
+    if (full && state.grid.generated) renderGrid(); if (state.view === 'results') updateResults();
     $('unitButtons').querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.unit === state.unit));
-    $('sourceIndicator').textContent = state.lsProfile;
+    $('sourceIndicator').textContent = state.lsProfile; emitProgress();
   }
 
   function setLoginMessage(message, type = 'error') { $('loginMessage').textContent = message; $('loginMessage').classList.toggle('success', type === 'success'); }
@@ -543,21 +573,22 @@
 
   function bindLongPress(button, shortFn, longFn, ms = 650) {
     let timer = null, longDone = false;
-    button.addEventListener('pointerdown', e => { if (e.button != null && e.button !== 0) return; longDone = false; timer = setTimeout(() => { longDone = true; longFn(); }, ms); });
-    button.addEventListener('pointerup', () => { clearTimeout(timer); if (!longDone) shortFn(); });
-    button.addEventListener('pointercancel', () => clearTimeout(timer)); button.addEventListener('pointerleave', () => clearTimeout(timer));
-    button.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) { e.preventDefault(); shortFn(); } });
+    const cancel = () => { clearTimeout(timer); timer = null; };
+    button.addEventListener('pointerdown', e => { if (e.button != null && e.button !== 0) return; cancel(); longDone = false; timer = setTimeout(() => { longDone = true; longFn(); }, ms); });
+    button.addEventListener('pointerup', cancel);
+    button.addEventListener('pointercancel', cancel); button.addEventListener('pointerleave', cancel);
+    button.addEventListener('click', e => { if (!longDone || e.detail === 0) shortFn(); longDone = false; });
   }
 
   function bindEvents() {
     $('memberLogin').addEventListener('submit', submitLogin); $('logoutBtn').addEventListener('click', () => closeSession(false));
     $('togglePassword').addEventListener('click', () => { const show = $('memberPassword').type === 'password'; $('memberPassword').type = show ? 'text' : 'password'; $('togglePassword').textContent = show ? 'Ocultar' : 'Mostrar'; });
     $('scenarioSelect').addEventListener('change', updateScenario);
-    $('planeSelect').addEventListener('change', e => { state.plane = e.target.value; resetMeasurements({ keepGrid: true }); updateAll(); });
-    $('lightConditionSelect').addEventListener('change', e => { state.lightCondition = e.target.value; updateAll(); updateResults(); });
-    $('positionSelect').addEventListener('change', e => { state.position = e.target.value; resetMeasurements({ keepGrid: true }); updateAll(); });
-    $('angleSelect').addEventListener('change', e => { state.angle = Number(e.target.value); resetMeasurements({ keepGrid: true }); updateAll(); });
-    $('sourceProfileSelect').addEventListener('change', e => { state.lsProfile = e.target.value; resetMeasurements({ keepGrid: true }); updateAll(); });
+    $('planeSelect').addEventListener('change', e => { state.plane = e.target.value; resetMeasurements(); updateAll(); });
+    $('lightConditionSelect').addEventListener('change', e => { state.lightCondition = e.target.value; resetMeasurements(); updateAll(); updateResults(); });
+    $('positionSelect').addEventListener('change', e => { state.position = e.target.value; resetMeasurements(); updateAll(); });
+    $('angleSelect').addEventListener('change', e => { state.angle = Number(e.target.value); resetMeasurements(); updateAll(); });
+    $('sourceProfileSelect').addEventListener('change', e => { state.lsProfile = e.target.value; resetMeasurements(); updateAll(); });
     $('rangeSelect').addEventListener('change', e => { state.range = e.target.value; updateAll(); });
     $$('#unitButtons button').forEach(b => b.addEventListener('click', () => changeUnit(b.dataset.unit)));
 
@@ -566,8 +597,9 @@
     $('quickZeroBtn').addEventListener('click', zeroMeter); $('quickPeakBtn').addEventListener('click', togglePeak); $('saveSpotBtn').addEventListener('click', saveSpot);
 
     $$('[data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
-    $('areaTypeSelect').addEventListener('change', e => { state.grid.area = e.target.value; updateResults(); }); $('generateGridBtn').addEventListener('click', generateGrid); $('recordNextGridBtn').addEventListener('click', recordNextGrid); $('resetGridBtn').addEventListener('click', resetGridReadings);
-    $$('#cylCompass button').forEach(b => b.addEventListener('click', () => recordCyl(b.dataset.dir))); $('cylHeightSelect').addEventListener('change', e => { state.cyl.height = Number(e.target.value); renderCyl(); });
+    ['areaLength', 'areaWidth'].forEach(id => $(id).addEventListener('change', () => { state.grid.generated = false; state.grid.rows = state.grid.cols = 0; resetMeasurements(); renderGrid(); updateResults(); emitProgress(); toast('Dimensiones cambiadas: genera de nuevo la rejilla'); }));
+    $('areaTypeSelect').addEventListener('change', e => { state.grid.area = e.target.value; resetMeasurements(); updateAll(); updateResults(); }); $('generateGridBtn').addEventListener('click', generateGrid); $('recordNextGridBtn').addEventListener('click', recordNextGrid); $('resetGridBtn').addEventListener('click', resetGridReadings);
+    $$('#cylCompass button').forEach(b => b.addEventListener('click', () => recordCyl(b.dataset.dir))); $('cylHeightSelect').addEventListener('change', e => { state.cyl.height = Number(e.target.value); state.cyl.readings = { 0: null, 90: null, 180: null, 270: null }; renderCyl(); });
     $('printReportBtn').addEventListener('click', () => { setView('results'); setTimeout(() => window.print(), 50); });
     $('clearMemoryBtn').addEventListener('click', () => { state.memories = []; saveMemories(); renderMemory(); toast('Memoria vaciada'); });
     $('manualBtn').addEventListener('click', () => $('manualDialog').showModal());

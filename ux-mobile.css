@@ -17,3 +17,12 @@ body:not(.auth-locked){color:var(--lux-ink);background:radial-gradient(circle at
 @media(max-width:390px){.reading-row strong{font-size:46px!important}.key b{font-size:12px!important}.lux-coach span{font-size:9px}.lux-coach strong{font-size:12px}.lux-coach button{font-size:10px}.lux-checklist li{min-width:90px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media print{.lux-coach,.lux-journey-card,.lux-help-btn,.lux-tour-dialog,.lux-tutorial-dialog{display:none!important}}
+
+/* Preserve the spatial arrangement of the measurement grid at every width. */
+.measurement-grid{grid-template-columns:repeat(var(--grid-cols),minmax(76px,1fr))!important;overflow-x:auto;max-width:100%;padding-bottom:12px}
+.lab-stage,.view-panel{min-width:0}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #007b85;outline-offset:3px}
+button:disabled{opacity:.55;cursor:not-allowed}
+.auth-locked .lux-coach{display:none!important}
+@media(max-width:620px){.top-actions .chip,.lux-help-btn{min-height:44px}.topbar,.resource-bar{position:static}.lux-dialog-nav{gap:8px}}
+@media print{.measurement-grid{grid-template-columns:repeat(var(--grid-cols),minmax(0,1fr))!important;overflow:visible}}

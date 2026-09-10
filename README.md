@@ -49,3 +49,17 @@ info@movidasst.com · +56 9 6861 5650
 www.movidasst.com
 
 > Recurso educativo. Los valores son simulados y no sustituyen un luxómetro calibrado, trazabilidad metrológica, una estrategia de muestreo, evaluación de incertidumbre ni una evaluación profesional de iluminación.
+
+## Revisión de usabilidad y coherencia de la práctica
+
+- Guía conectada al estado real: ZERO finalizado, preparación válida y rejilla completa.
+- Cancelación de ZERO y estabilización cuando cambian sus condiciones.
+- Registro bloqueado con preparación incompleta, sombra, inclinación, OL o modos HOLD/REL/PEAK/MAX/MIN. La lectura puntual permite explorar esos errores.
+- Cambios de condiciones invalidan puntos anteriores; cambios de dimensiones requieren generar una nueva rejilla.
+- Rejilla visual conserva sus columnas y sitúa las muestras en centros de celda.
+- Manual integrado ampliado con funciones, interpretación, ejemplos y recomendaciones de informe de SST.
+- Ayuda móvil incluida también en la compilación Vite.
+
+Verificación: `node --test tests/simulator.test.cjs` y `npm run build`. Las pruebas usan un entorno aislado sin llamadas de autenticación.
+
+Límites explícitos: PEAK usa las mismas muestras de 2 Hz que MAX; el selector de luz cambia el contexto de interpretación, y la altura cilíndrica documenta la postura, sin modelo físico solar o tridimensional. Esta revisión no certifica los valores normativos de referencia.

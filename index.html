@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#00205b">
   <meta name="description" content="Simulador profesional y didáctico de luxómetro para practicar medición de iluminancia y evaluación de iluminación interior.">
   <title>Luxómetro Virtual · Movida SST+</title>
-  <link rel="icon" type="image/svg+xml" href="assets/logo-movida-sst-plus.png">
+  <link rel="icon" type="image/png" href="assets/logo-movida-sst-plus.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ux-mobile.css">
 
@@ -97,7 +97,7 @@ img[src*="logo-movida-sst-plus"]{object-fit:contain!important;object-position:ce
       </aside>
 
       <section class="lab-stage card">
-        <div class="view-tabs" role="tablist" aria-label="Vistas del simulador">
+        <div class="view-tabs" role="group" aria-label="Vistas del laboratorio" aria-label="Vistas del simulador">
           <button type="button" data-view="spot" class="active">Puntual</button>
           <button type="button" data-view="grid">Rejilla EN</button>
           <button type="button" data-view="cyl">Cilíndrica</button>
@@ -196,18 +196,25 @@ img[src*="logo-movida-sst-plus"]{object-fit:contain!important;object-position:ce
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <dialog id="manualDialog" class="manual-dialog">
+    <dialog id="manualDialog" class="manual-dialog" aria-label="Manual didáctico del luxómetro">
       <form method="dialog">
         <button class="dialog-close" value="close" aria-label="Cerrar">×</button>
         <p class="eyebrow">MANUAL DIDÁCTICO · MLX–PRO 900</p><h2>Operación y criterios de medición</h2>
+        <p>Guía para profesionales de Seguridad y Salud en el Trabajo. Aprende a preparar el instrumento, registrar con contexto e interpretar una práctica de iluminación.</p>
         <div class="manual-grid">
+          <details><summary>¿Qué mide? Lux, fc y plano de trabajo</summary><p>La iluminancia indica la luz que llega a una superficie. El simulador convierte con 1 fc ≈ 10,764 lx. Cambiar de unidad conserva el valor físico; no mejora la iluminación. Selecciona el plano que corresponde a la tarea: mesa, superficie vertical o suelo.</p><p>Antes de evaluar, identifica la actividad visual, el área, la altura del plano, las fuentes encendidas y el aporte de luz natural. Una lectura de pasillo no representa automáticamente un puesto de precisión.</p></details>
+          <details><summary>HOLD, MAX/MIN, REL y PEAK: uso e interpretación</summary><p><strong>HOLD:</strong> congela la lectura. En esta simulación también pausa las muestras; desactívalo para continuar. <strong>MAX/MIN:</strong> muestra los extremos del tramo iniciado con MEDIR. No son el promedio del área ni la uniformidad.</p><p><strong>REL:</strong> fija la lectura actual como referencia y muestra la diferencia. Si la referencia es 500 lx y luego hay 450 lx, REL indica −50 lx. Ese resultado no es una iluminancia negativa. Desactiva REL antes de comparar con una referencia de iluminación.</p><p><strong>PEAK:</strong> muestra el mayor valor de las muestras simuladas a 2 Hz y puede coincidir con MAX. No representa una captura rápida de transitorios ni permite evaluar flicker. Para registrar, vuelve a LIVE y ABS, sin HOLD ni PEAK.</p></details>
+          <details><summary>Registrar y cambiar condiciones del ensayo</summary><p>Puedes explorar errores de sombra e inclinación con lecturas puntuales. Para guardar o registrar puntos, el simulador exige preparación completa, sensor destapado y alineado, lectura absoluta en vivo y rango sin OL.</p><p>Cambiar escenario, plano, condición de luz, posición, ángulo, perfil LS o tipo de área borra las lecturas del ensayo para evitar mezclar condiciones. Cambiar dimensiones exige generar otra rejilla. Cambiar lux/fc conserva las mediciones; cambiar altura cilíndrica borra sus cuatro direcciones.</p><p>Cada punto simula una adquisición en su posición, detiene el muestreo puntual y conserva su valor en lux. La rejilla mantiene filas y columnas: deslízala horizontalmente si no cabe. Completa todos los puntos antes de guardar la evaluación.</p></details>
+          <details><summary>Promedio y uniformidad: ejemplo explicado</summary><p>Con cuatro puntos de 400, 500, 600 y 500 lx, el promedio es (400 + 500 + 600 + 500) / 4 = 500 lx. El mínimo es 400 lx y U₀ = Emin / Ē = 400 / 500 = 0,80.</p><p>Un promedio suficiente puede ocultar zonas oscuras: revisa también mínimo, uniformidad y distribución. Mientras falten puntos, el resultado es provisional. Los extremos de la rejilla se calculan con sus puntos, independientemente de MAX/MIN del instrumento.</p></details>
+          <details><summary>Iluminancia cilíndrica y altura</summary><p>Registra las cuatro direcciones verticales en el mismo punto y altura. Solo después se muestra su promedio. La postura seleccionada documenta la altura del ejercicio; el modelo no calcula un campo luminoso tridimensional ni modifica numéricamente la luz por altura.</p><p>La aproximación ayuda a estudiar iluminación del espacio y reconocimiento visual. No la confundas con la media horizontal de la rejilla.</p></details>
+          <details><summary>Recomendaciones para el informe de SST</summary><p>Documenta tarea, área y dimensiones, plano y altura, fecha y hora, fuentes encendidas, luz natural, identificación del equipo, calibración, preparación, estrategia de puntos y condiciones observadas. Conserva resultados por punto, promedio, mínimo y U₀ junto con las limitaciones.</p><p>En Resultados, usa Imprimir / PDF. La memoria de esta aplicación permanece en este navegador; no es un registro profesional centralizado. Si encuentras una zona deficiente, investiga distribución, obstáculos, mantenimiento y condiciones de uso; después verifica nuevamente.</p></details>
           <details open><summary>Secuencia recomendada</summary><ol><li>Inspecciona el sensor.</li><li>Retira la tapa y deja estabilizar el detector.</li><li>Con la tapa colocada, ejecuta ZERO.</li><li>Selecciona unidad, rango y perfil de fuente.</li><li>Define plano y evita sombra/obstrucción.</li><li>Mide y registra puntos representativos.</li><li>Genera la rejilla según dimensiones cuando corresponda.</li><li>Analiza promedio, mínimo y uniformidad.</li></ol></details>
           <details><summary>Botones del equipo</summary><p><strong>RAN:</strong> cambia rangos manuales; mantener pulsado vuelve a AUTO. <strong>HOLD/ZERO:</strong> pulsación corta retiene; larga ejecuta cero si la tapa está puesta. <strong>REL/PEAK:</strong> corta activa referencia relativa; larga activa/desactiva pico. <strong>MAX/MIN:</strong> recorre lectura en vivo, máximo y mínimo.</p></details>
           <details><summary>Rango y resolución</summary><p>Los rangos manuales modifican el fondo de escala y la resolución visible. Si aparece <strong>OL</strong>, aumenta el rango y repite la lectura. AUTO selecciona automáticamente un rango capaz de contener el valor.</p></details>
           <details><summary>Respuesta angular</summary><p>La lectura depende de la orientación del fotodetector y de su respuesta direccional. El modo 30°/60° permite observar la combinación entre la geometría de incidencia y una desviación coseno simulada.</p></details>
-          <details><summary>Fuente y respuesta espectral</summary><p>Un luxómetro intenta aproximar la sensibilidad fotópica V(λ), pero los instrumentos reales presentan desajuste espectral. El perfil LS del simulador muestra cómo una corrección dependiente de fuente puede modificar la lectura.</p></details>
+          <details><summary>Fuente y respuesta espectral</summary><p>Un luxómetro intenta aproximar la sensibilidad fotópica V(λ), pero los instrumentos reales presentan desajuste espectral. Los factores LS son didácticos, no una corrección universal para equipos reales. Selecciona el perfil según la documentación del fabricante del instrumento utilizado. El perfil LS del simulador muestra cómo una corrección dependiente de fuente puede modificar la lectura.</p></details>
           <details><summary>Rejilla y áreas</summary><p>La evaluación distingue área de tarea, área circundante inmediata y área de fondo. La rejilla se genera con el método de tamaño de celda de EN 12464-1:2022; los puntos se consideran en los centros de las celdas.</p></details>
-          <details><summary>Luz natural y uniformidad</summary><p>Cuando existe aporte significativo de luz natural, el simulador presenta U₀ como indicador descriptivo y evita emitir un juicio normativo de uniformidad basado en los valores aplicables a iluminación eléctrica.</p></details>
+          <details><summary>Luz natural y uniformidad</summary><p>El selector de luz documenta el contexto y cambia el criterio de interpretación; no recalcula un aporte solar ni un porcentaje de mezcla. Cuando existe aporte significativo de luz natural, el simulador presenta U₀ como indicador descriptivo y evita emitir un juicio normativo de uniformidad basado en los valores aplicables a iluminación eléctrica.</p></details>
           <details><summary>Alcance</summary><p>Recurso educativo. Los valores son simulados. No sustituye calibración, trazabilidad metrológica, estrategia de muestreo, evaluación de incertidumbre ni un estudio profesional.</p></details>
         </div>
         <button class="primary wide" value="close">Volver al simulador</button>
@@ -216,6 +223,6 @@ img[src*="logo-movida-sst-plus"]{object-fit:contain!important;object-position:ce
   </div>
 
   <script type="module" src="app.js"></script>
-  <script src="ux-mobile.js" defer></script>
+  <script type="module" src="ux-mobile.js"></script>
 </body>
 </html>
